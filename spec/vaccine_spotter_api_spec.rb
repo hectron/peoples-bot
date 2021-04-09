@@ -25,7 +25,7 @@ describe VaccineSpotterApi do
 
         expect(locations).to all(
           be_a(Location).and have_attributes(
-            appointments: include(
+            appointments: all(
               be_a(Appointment).and have_attributes(
                 vaccine_types: include(vaccine_type),
               )
@@ -36,13 +36,13 @@ describe VaccineSpotterApi do
     end
 
     it "filters the results by zipcode" do
-      appointments = VaccineSpotterApi.find_in("IL", zipcodes: ["60601"])
+      locations = VaccineSpotterApi.find_in("IL", zipcodes: ["60601"])
 
-      expect(appointments).to be_empty
+      expect(locations).to be_empty
 
-      appointments = VaccineSpotterApi.find_in("IL", zipcodes: ["60453"])
+      locations = VaccineSpotterApi.find_in("IL", zipcodes: ["60453"])
 
-      expect(appointments).not_to be_empty
+      expect(locations).not_to be_empty
     end
   end
 end
