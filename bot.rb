@@ -6,7 +6,7 @@ require_relative "./vaccine_spotter_result"
 
 bot = Discordrb::Commands::CommandBot.new(token: ENV["DISCORD_BOT_CLIENT_TOKEN"],
                                           client_id: ENV["DISCORD_BOT_CLIENT_ID"],
-                                          prefix: COMMAND_PREFIX)
+                                          prefix: BOT_COMMAND_PREFIX)
 
 VACCINE_TYPES.each do |type|
   command_config = {
