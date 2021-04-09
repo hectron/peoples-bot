@@ -2,6 +2,7 @@ require "discordrb"
 require_relative "./constants"
 require_relative "./discord_command"
 require_relative "./vaccine_spotter_api"
+require_relative "./vaccine_spotter_result"
 
 bot = Discordrb::Commands::CommandBot.new(token: ENV["DISCORD_BOT_CLIENT_TOKEN"],
                                           client_id: ENV["DISCORD_BOT_CLIENT_ID"],
@@ -23,9 +24,9 @@ VACCINE_TYPES.each do |type|
     })
   do |_event, arguments|
     command = DiscordCommand.parse(arguments)
-    results = VaccineSpotterApi.find_for(command.state, vaccine_type: type, zipcodes: command.zipcodes)
+    locations = VaccineSpotterApi.find_for(command.state, vaccine_type: type, zipcodes: command.zipcodes)
 
-    VaccineSpotterResult.display(results)
+    VaccineSpotterResult.display(locations)
   end
 end
 
