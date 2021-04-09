@@ -25,7 +25,7 @@ VACCINE_TYPES.each do |type|
     USAGE
   }
 
-  bot.command(type.to_sym, command_config) do |_event, arguments|
+  bot.command(type.to_sym, command_config) do |_event, *arguments|
     LOGGER.info "Command type: #{type}, Arguments: #{arguments}"
     command = DiscordCommand.parse(arguments)
     locations = VaccineSpotterApi.find_in(state: command.state, vaccine_type: type, zipcodes: command.zipcodes)
