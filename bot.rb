@@ -29,7 +29,7 @@ VACCINE_TYPES.each do |type|
     LOGGER.info "Command type: #{type}"
     LOGGER.info "Event: #{_event}"
     LOGGER.info "State: #{state}"
-    LOGGER.info "Zip Codes: #{zip_codes}"
+    LOGGER.info "Zip Codes: #{zipcodes}"
     # command = DiscordCommand.parse(arguments)
     locations = VaccineSpotterApi.find_in(state: state, vaccine_type: type, zipcodes: zipcodes)
 
