@@ -1,7 +1,7 @@
 require "pry"
 require_relative "./constants"
 
-class VaccineSpotterCommand
+class DiscordCommand
   attr_reader :state, :zipcodes
 
   def self.parse(arguments)
