@@ -8,12 +8,22 @@ bot = Discordrb::Commands::CommandBot.new(token: ENV["DISCORD_BOT_CLIENT_TOKEN"]
                                           prefix: COMMAND_PREFIX)
 
 VACCINE_TYPES.each do |type|
-  bot.command type.to_sym do |_event, arguments|
-    command = DiscordCommand.parse(arguments)
+  bot.command(
+    type.to_sym,
+    {
+      help_available: true,
+      description: "Find #{type} vaccines",
+      usage: <<~USAGE.strip,
+      #{type} <STATE> <zipcode1>, <zipcode2>, ...
 
-    results = VaccineSpotterApi.find_for(command.state,
-                                         vaccine_type: command.vaccine_type,
-                                         zipcodes: command.zipcodes)
+      Examples:
+        #{type} IL
+        #{type} 60601, 60613, 60657
+      USAGE
+    })
+  do |_event, arguments|
+    command = DiscordCommand.parse(arguments)
+    results = VaccineSpotterApi.find_for(command.state, vaccine_type: type, zipcodes: command.zipcodes)
 
     VaccineSpotterResult.display(results)
   end
