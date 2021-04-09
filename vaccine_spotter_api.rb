@@ -4,7 +4,7 @@ require "net/http"
 class VaccineSpotterApi
   API_URL = "https://www.vaccinespotter.org/api/v0/states".freeze
 
-  def self.find_in(state, vaccine_type: nil, zipcodes: [])
+  def self.find_in(state:, vaccine_type: nil, zipcodes: [])
     new(state, vaccine_type, zipcodes).find
   end
 
