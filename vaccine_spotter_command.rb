@@ -1,4 +1,5 @@
 require "pry"
+require_relative "./constants"
 
 class VaccineSpotterCommand
   attr_reader :state, :zipcodes
@@ -11,14 +12,18 @@ class VaccineSpotterCommand
     state = nil
     zipcodes = []
 
-    if clean_args[0].length == 2
-      state = clean_args[0]
+    if (potential_state = clean_args[0]) && potential_state.length == 2
+      if STATES.include?(potential_state.upcase)
+        state = potential_state.upcase
+      else
+        raise ArgumentError, "Could not parse state. Args: #{arguments}"
+      end
 
       if clean_args.size > 1
-        zipcodes = clean_args[1..-1]
+        zipcodes = parse_zipcodes(clean_args[1..-1])
       end
     else
-      zipcodes = clean_args
+      raise ArgumentError, "No state found in: #{arguments}"
     end
 
     new(state, zipcodes)
@@ -27,5 +32,17 @@ class VaccineSpotterCommand
   def initialize(state, zipcodes = [])
     @state = state
     @zipcodes = zipcodes
+  end
+
+  private
+
+  def self.parse_zipcodes(potential_zips)
+    potential_zips.map do |zip|
+      zip.strip.to_i.to_s.tap do |clean_zip|
+        if clean_zip.length != 5
+          raise ArgumentError, "Could not parse zipcodes: #{potential_zips}"
+        end
+      end
+    end
   end
 end
