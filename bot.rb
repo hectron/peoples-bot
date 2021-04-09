@@ -26,14 +26,14 @@ VACCINE_TYPES.each do |type|
   }
 
   bot.command(type.to_sym, command_config) do |_event, state, *zipcodes|
-    LOGGER.info "Command type: #{type}, Arguments: #{arguments}"
+    LOGGER.info "Command type: #{type}"
     LOGGER.info "Event: #{_event}"
     LOGGER.info "State: #{state}"
     LOGGER.info "Zip Codes: #{zip_codes}"
     # command = DiscordCommand.parse(arguments)
     locations = VaccineSpotterApi.find_in(state: state, vaccine_type: type, zipcodes: zipcodes)
 
-    VaccineSpotterResult.display(locations).tap do |msg|
+    VaccineSpotterResult.display(locations.first(25)).tap do |msg|
       LOGGER.info msg
     end
   end
