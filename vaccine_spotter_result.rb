@@ -14,7 +14,7 @@ class VaccineSpotterResult
 
     locations.each do |location|
       msg = <<~MSG.strip
-        - #{location.appointments.size} appointment(s) for the #{location.vaccine_types.join(" and ")} vaccine at [#{location.name} (#{location.provider}) - #{location.city}, #{location.state} #{location.postal_code}](#{location.url})
+        - #{location.appointments.size} appointment(s) for the #{location.vaccine_types.join(" and ")} vaccine at #{location.name} (#{location.provider}) - #{location.city}, #{location.state} #{location.postal_code} (website: #{location.url})
       MSG
 
       if (output + msg).size < MESSAGE_CHARACTER_LIMIT
