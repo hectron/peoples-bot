@@ -7,19 +7,18 @@ class VaccineSpotterResult
 
     total_appointments = locations.sum { |location| location.appointments.size }
     output = if total_appointments.size == 1
-               "Found a total of #{total_appointments} appointment!"
+               "Found a total of #{total_appointments} appointment!\n"
              else
-               "Found a total of #{total_appointments} appointments!"
+               "Found a total of #{total_appointments} appointments! _Due to message limits, less results might be displayed_.\n"
              end
 
     locations.each do |location|
       msg = <<~MSG.strip
-        #{location.appointments.size} appointment(s) for the #{location.vaccine_types.join(" and ")} vaccine at #{location.name} (#{location.provider}) - #{location.city}, #{location.state} #{location.postal_code}
-        Appointment URL: #{location.url}
+        - #{location.appointments.size} appointment(s) for the #{location.vaccine_types.join(" and ")} vaccine at [#{location.name} (#{location.provider}) - #{location.city}, #{location.state} #{location.postal_code}](#{location.url})
       MSG
 
       if (output + msg).size < MESSAGE_CHARACTER_LIMIT
-        output += "\n\n"
+        output += "\n"
         output += msg
       else
         break

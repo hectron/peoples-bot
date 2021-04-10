@@ -36,13 +36,10 @@ describe VaccineSpotterResult do
 
       it "provides a summary of available appointments" do
         expect(described_class.display(locations)).to eq(<<~MSG.strip)
-        Found a total of 3 appointments!
+        Found a total of 3 appointments! _Due to message limits, less results might be displayed_.
 
-        1 appointment(s) for the jj vaccine at Taco (Walmart) - Chicago, IL 60601
-        Appointment URL: https://test-walmart.com
-
-        2 appointment(s) for the jj and pfizer and moderna vaccine at Bell (CVS) - Chicago, IL 60613
-        Appointment URL: https://cvs-test.com
+        - 1 appointment(s) for the jj vaccine at [Taco (Walmart) - Chicago, IL 60601](https://test-walmart.com)
+        - 2 appointment(s) for the jj and pfizer and moderna vaccine at [Bell (CVS) - Chicago, IL 60613](https://cvs-test.com)
         MSG
       end
 
