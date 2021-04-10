@@ -33,7 +33,7 @@ VACCINE_TYPES.each do |type|
     # command = DiscordCommand.parse(arguments)
     locations = VaccineSpotterApi.find_in(state: state, vaccine_type: type, zipcodes: zipcodes)
 
-    VaccineSpotterResult.display(locations.first(10)).tap do |msg|
+    VaccineSpotterResult.display(locations).tap do |msg|
       LOGGER.info msg
     end
   end

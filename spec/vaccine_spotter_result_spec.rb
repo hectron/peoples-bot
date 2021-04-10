@@ -36,14 +36,30 @@ describe VaccineSpotterResult do
 
       it "provides a summary of available appointments" do
         expect(described_class.display(locations)).to eq(<<~MSG.strip)
-        Found 1 appointment(s) for the jj vaccine at Taco (Walmart) - Chicago, IL 60601
+        Found a total of 3 appointments!
 
+        1 appointment(s) for the jj vaccine at Taco (Walmart) - Chicago, IL 60601
         Appointment URL: https://test-walmart.com
 
-        Found 2 appointment(s) for the jj and pfizer and moderna vaccine at Bell (CVS) - Chicago, IL 60613
-
+        2 appointment(s) for the jj and pfizer and moderna vaccine at Bell (CVS) - Chicago, IL 60613
         Appointment URL: https://cvs-test.com
         MSG
+      end
+
+      it "truncates the message within the character limit" do
+        locations = 1_000.times.map do
+          Location.new(name: "Taco Bell",
+                       provider: "Walmart",
+                       url: "https://test-walmart.com",
+                       city: "Chicago",
+                       state: "IL",
+                       postal_code: "60601",
+                       appointments: [
+                         Appointment.new(vaccine_types: ["jj"])
+                       ])
+        end
+
+        expect(described_class.display(locations).size).to be < described_class::MESSAGE_CHARACTER_LIMIT
       end
     end
   end
