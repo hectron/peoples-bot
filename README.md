@@ -4,12 +4,11 @@ Find a COVID-19 vaccine in the comfort of your Discord community.
 
 ## Usage
 
-Currently, the `pfizer`, `moderna` and `jj` (Johnson & Johnson) vaccines are supported.
+You can search for a specific vaccine within your state (and zip codes) by using the guide below. Currently, the `pfizer`, `moderna` and `jj` (Johnson & Johnson) vaccines are searchable.
 
-To search for a specific vaccine in your state:
-
-```discord
-!<vaccine-type> <state> <zipcode> <zipcode> ... <zipcode>
+```console
+# The following is the format for a Discord command
+# !<vaccine-type> <state> <zipcode> <zipcode> ... <zipcode>
 
 # finds all pfizer vaccines in Illinois
 !pfizer IL
@@ -17,13 +16,18 @@ To search for a specific vaccine in your state:
 # finds all moderna vaccines in California
 !moderna CA
 
-# finds all johnson & johnson vaccines in the Brooklyn Heights, Cobble Hill, Cypress Hills and Parkville neighborhoods
+# finds all johnson & johnson vaccines in the Brooklyn Heights, Cobble Hill,
+# Cypress Hills and Parkville New York neighborhoods
 !jj NY 11201 11208 11204
 ```
 
+## Installing in your Discord server
+
+TODO
+
 ## Development
 
-This repo uses _**Ruby 3**_ and leverages the [discordrb](https://github.com/shardlab/discordrb) library.
+This repo uses **Ruby 3** and leverages _**[discordrb](https://github.com/shardlab/discordrb)**_ to create a bot.
 
 Every pull request must have a passing test suite.
 
@@ -35,11 +39,11 @@ bundle exec rspec
 
 ### Deployment
 
-This repo is set to automatically deploy to **[Heroku](https://heroku.com)**. When a pull request is merged into `main`, CI/CD will auto deploy it out to Heroku.
+This repo is set to automatically deploy to **[Heroku](https://heroku.com)** when a pull request is merged into `main`.
 
-If you'd like to deploy this to your own personal Heroku instance, be aware that you will need the following environment variables:
+If you'd like to deploy this to your own personal **[Heroku](https://heroku.com)** instance, you will need the following environment variables:
 
-- `DISCORD_BOT_CLIENT_TOKEN` -- the bot token
-- `DISCORD_BOT_CLIENT_ID` -- the client ID of the application
+- `DISCORD_BOT_CLIENT_TOKEN`
+- `DISCORD_BOT_CLIENT_ID`
 
-**NOTE:** `Discordrb::Commands::CommandBot` uses websockets to connect to Discord, and listen to messaging. This means that the application needs to be running constantly. When deploying to Heroku, make sure the application has worker dynos enabled so that the application does not shutdown.
+**NOTE:** `Discordrb::Commands::CommandBot` uses websockets to connect to Discord. When deploying to **[Heroku](https://heroku.com)**, make sure the application has worker dynos enabled so that the application does not shutdown.
