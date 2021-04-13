@@ -17,19 +17,19 @@ VACCINE_TYPES.each do |type|
     help_available: true,
     description: "Find #{type} vaccines",
     usage: <<~USAGE.strip,
-      #{type} <STATE> <zipcode1>, <zipcode2>, ...
+      #{type} <STATE> <zipcode1> <zipcode2> ... <zipcodeN>
 
       Examples:
         #{type} IL
-        #{type} 60601, 60613, 60657
+        #{type} 60601 60613 60657
     USAGE
   }
 
   bot.command(type.to_sym, command_config) do |_event, state, *zipcodes|
-    LOGGER.info "Command type: #{type}"
-    LOGGER.info "Event: #{_event}"
-    LOGGER.info "State: #{state}"
-    LOGGER.info "Zip Codes: #{zipcodes}"
+    LOGGER.info <<~INFO
+      Command type: #{type}, State: #{state}, Zip Codes: #{zipcodes}
+      Event: #{_event}
+    INFO
     # command = DiscordCommand.parse(arguments)
     locations = VaccineSpotterApi.find_in(state: state, vaccine_type: type, zipcodes: zipcodes)
 
