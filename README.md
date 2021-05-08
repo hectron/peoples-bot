@@ -8,13 +8,19 @@ You can search for a specific vaccine within your state (and zip codes) by using
 
 ```console
 # The following is the format for a Discord command
-# !<vaccine-type> <state> <zipcode> <zipcode> ... <zipcode>
+# !<vaccine-type> <state> [<city> (optional)] <zipcode> <zipcode> ... <zipcode>
 
 # finds all pfizer vaccines in Illinois
 !pfizer IL
 
+# find all pfizer vaccines in Springfield, IL
+!pfizer IL Springfield
+
 # finds all moderna vaccines in California
 !moderna CA
+
+# finds all moderna vaccines in Los Angeles, California
+!moderna CA Los Angeles
 
 # finds all johnson & johnson vaccines in the Brooklyn Heights, Cobble Hill,
 # Cypress Hills and Parkville New York neighborhoods

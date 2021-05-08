@@ -1,6 +1,7 @@
 require "logger"
 require "discordrb"
 require_relative "./constants"
+require_relative "./discord_command"
 require_relative "./vaccine_spotter_api"
 require_relative "./vaccine_spotter_result"
 
@@ -24,13 +25,17 @@ VACCINE_TYPES.each do |type|
     USAGE
   }
 
-  bot.command(type.to_sym, command_config) do |_event, state, *zipcodes|
+  bot.command(type.to_sym, command_config) do |_event, state, *args|
     LOGGER.info <<~INFO
-      Command type: #{type}, State: #{state}, Zip Codes: #{zipcodes}
+      Command type: #{type}, State: #{state}, Args: #{args}
       Event: #{_event}
     INFO
 
-    locations = VaccineSpotterApi.find_in(state: state, vaccine_type: type, zipcodes: zipcodes)
+    command = DiscordCommand.new(args)
+    locations = VaccineSpotterApi.find_in(state: state,
+                                          vaccine_type: type,
+                                          city: command.city,
+                                          zipcodes: command.zipcodes)
 
     VaccineSpotterResult.display(locations).tap do |msg|
       LOGGER.info msg
