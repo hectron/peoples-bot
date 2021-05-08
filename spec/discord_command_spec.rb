@@ -9,7 +9,7 @@ describe DiscordCommand do
 
       it "parses correctly" do
         expect(instance.city).to eq("Milwaukee")
-        expect(instance.zip_codes).to be_empty
+        expect(instance.zipcodes).to be_empty
       end
     end
   end
@@ -20,7 +20,7 @@ describe DiscordCommand do
 
       it "parses correctly" do
         expect(instance.city).to eq("Los Angeles")
-        expect(instance.zip_codes).to match_array(["90210", "90200"])
+        expect(instance.zipcodes).to match_array(["90210", "90200"])
       end
     end
 
@@ -29,7 +29,7 @@ describe DiscordCommand do
 
       it "parses correctly" do
         expect(instance.city).to eq("St. Petersburg")
-        expect(instance.zip_codes).to be_empty
+        expect(instance.zipcodes).to be_empty
       end
     end
   end
@@ -39,7 +39,7 @@ describe DiscordCommand do
 
     it "parses correctly" do
       expect(instance.city).to be_nil
-      expect(instance.zip_codes).to match_array(["60601", "60613"])
+      expect(instance.zipcodes).to match_array(["60601", "60613"])
     end
   end
 end

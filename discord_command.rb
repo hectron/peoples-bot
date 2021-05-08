@@ -13,8 +13,8 @@ class DiscordCommand
               end
   end
 
-  def zip_codes
-    @zip_codes ||= integer_args
+  def zipcodes
+    @zipcodes ||= integer_args
   end
 
   private
