@@ -8,7 +8,7 @@ describe DiscordCommand do
       let(:discord_args) { ["Milwaukee"] }
 
       it "parses correctly" do
-        expect(instance.city).to eq("Milwaukee")
+        expect(instance.city).to eq("milwaukee")
         expect(instance.zipcodes).to be_empty
       end
     end
@@ -19,7 +19,7 @@ describe DiscordCommand do
       let(:discord_args) { ["Los", "Angeles", "90210", "90200"] }
 
       it "parses correctly" do
-        expect(instance.city).to eq("Los Angeles")
+        expect(instance.city).to eq("los angeles")
         expect(instance.zipcodes).to match_array(["90210", "90200"])
       end
     end
@@ -28,7 +28,7 @@ describe DiscordCommand do
       let(:discord_args) { ["St.", " ", "Petersburg"] }
 
       it "parses correctly" do
-        expect(instance.city).to eq("St. Petersburg")
+        expect(instance.city).to eq("st. petersburg")
         expect(instance.zipcodes).to be_empty
       end
     end

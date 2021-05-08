@@ -35,7 +35,7 @@ class DiscordCommand
                          next if stripped_arg.empty?
 
                          if stripped_arg.to_i == 0
-                           parsed_args[:strings].push(stripped_arg)
+                           parsed_args[:strings].push(stripped_arg.downcase)
                          else
                            parsed_args[:integers].push(stripped_arg)
                          end

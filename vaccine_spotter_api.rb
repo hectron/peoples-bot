@@ -11,7 +11,7 @@ class VaccineSpotterApi
   def initialize(state, vaccine_type, city, zipcodes)
     @state = state
     @vaccine_type = vaccine_type
-    @city = city&.downcase
+    @city = city
     @zipcodes = zipcodes
   end
 
