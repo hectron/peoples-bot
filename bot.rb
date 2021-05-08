@@ -1,9 +1,9 @@
 require "logger"
 require "discordrb"
-require_relative "./constants"
-require_relative "./discord_command"
-require_relative "./vaccine_spotter_api"
-require_relative "./vaccine_spotter_result"
+require_relative "./app/constants"
+require_relative "./app/discord/command"
+require_relative "./app/vaccine_spotter/api"
+require_relative "./app/vaccine_spotter/result"
 
 LOGGER = Logger.new(STDOUT)
 LOGGER.level = Logger::INFO
@@ -33,13 +33,13 @@ VACCINE_TYPES.each do |type|
       Event: #{_event}
     INFO
 
-    command = DiscordCommand.new(args)
-    locations = VaccineSpotterApi.find_in(state: state,
-                                          vaccine_type: type,
-                                          city: command.city,
-                                          zipcodes: command.zipcodes)
+    command = Discord::Command.new(args)
+    locations = VaccineSpotter::Api.find_in(state: state,
+                                            vaccine_type: type,
+                                            city: command.city,
+                                            zipcodes: command.zipcodes)
 
-    VaccineSpotterResult.display(locations).tap do |msg|
+    VaccineSpotter::Result.display(locations).tap do |msg|
       LOGGER.info msg
     end
   end

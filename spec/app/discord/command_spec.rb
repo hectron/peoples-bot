@@ -1,6 +1,6 @@
-require_relative "../discord_command"
+require_relative "../../../app/discord/command"
 
-describe DiscordCommand do
+describe Discord::Command do
   let(:instance) { described_class.new(discord_args) }
 
   context "one-word cities" do
