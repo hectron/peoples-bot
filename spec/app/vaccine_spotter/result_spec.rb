@@ -1,7 +1,7 @@
-require_relative "../vaccine_spotter_api"
-require_relative "../vaccine_spotter_result"
+require_relative "../../../app/vaccine_spotter/api"
+require_relative "../../../app/vaccine_spotter/result"
 
-describe VaccineSpotterResult do
+describe VaccineSpotter::Result do
   describe ".display" do
     context "when no locations are available" do
       it "says there are no appointments available" do
@@ -12,24 +12,24 @@ describe VaccineSpotterResult do
     context "when there are locations available" do
       let(:locations) {
         [
-          Location.new(name: "Taco",
+          VaccineSpotter::Location.new(name: "Taco",
                        provider: "Walmart",
                        url: "https://test-walmart.com",
                        city: "Chicago",
                        state: "IL",
                        postal_code: "60601",
                        appointments: [
-                         Appointment.new(vaccine_types: ["jj"])
+                         VaccineSpotter::Appointment.new(vaccine_types: ["jj"])
                        ]),
-          Location.new(name: "Bell",
+          VaccineSpotter::Location.new(name: "Bell",
                        provider: "CVS",
                        url: "https://cvs-test.com",
                        city: "Chicago",
                        state: "IL",
                        postal_code: "60613",
                        appointments: [
-                         Appointment.new(vaccine_types: ["jj", "pfizer"]),
-                         Appointment.new(vaccine_types: ["jj", "moderna"]),
+                         VaccineSpotter::Appointment.new(vaccine_types: ["jj", "pfizer"]),
+                         VaccineSpotter::Appointment.new(vaccine_types: ["jj", "moderna"]),
                        ]),
         ]
       }
@@ -45,14 +45,14 @@ describe VaccineSpotterResult do
 
       it "truncates the message within the character limit" do
         locations = 1_000.times.map do
-          Location.new(name: "Taco Bell",
+          VaccineSpotter::Location.new(name: "Taco Bell",
                        provider: "Walmart",
                        url: "https://test-walmart.com",
                        city: "Chicago",
                        state: "IL",
                        postal_code: "60601",
                        appointments: [
-                         Appointment.new(vaccine_types: ["jj"])
+                         VaccineSpotter::Appointment.new(vaccine_types: ["jj"])
                        ])
         end
 
