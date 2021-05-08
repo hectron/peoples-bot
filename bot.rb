@@ -17,13 +17,13 @@ VACCINE_TYPES.each do |type|
     help_available: true,
     description: "Find #{type} vaccines",
     usage: <<~USAGE.strip,
-      #{type} <STATE> [<CITY> (optional)] <zipcode1> <zipcode2> ... <zipcodeN>
+      !#{type} <STATE> [<CITY> (optional)] <zipcode1> <zipcode2> ... <zipcodeN>
 
       Examples:
-        #{type} IL
-        #{type} IL Chicago
-        #{type} IL 60601 60613 60657
-        #{type} IL Chicago 60613 60660
+        !#{type} IL
+        !#{type} IL Chicago
+        !#{type} IL 60601 60613 60657
+        !#{type} IL Chicago 60613 60660
     USAGE
   }
 
