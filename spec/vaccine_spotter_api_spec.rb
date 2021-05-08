@@ -44,5 +44,18 @@ describe VaccineSpotterApi do
 
       expect(locations).not_to be_empty
     end
+
+    it "filters by city" do
+      locations = VaccineSpotterApi.find_in(state: "IL", city: "Chicago")
+      expect(locations).not_to be_empty
+    end
+
+    it "filters by both city and zip" do
+      locations = VaccineSpotterApi.find_in(state: "IL", city: "Chicago", zipcodes: ["60613"])
+      expect(locations).to be_empty
+
+      locations = VaccineSpotterApi.find_in(state: "IL", city: "Chicago", zipcodes: ["60613", "60640"])
+      expect(locations).not_to be_empty
+    end
   end
 end
