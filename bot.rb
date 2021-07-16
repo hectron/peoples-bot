@@ -29,8 +29,8 @@ VACCINE_TYPES.each do |type|
 
   bot.command(type.to_sym, command_config) do |_event, state, *args|
     LOGGER.info <<~INFO
-      Command type: #{type}, State: #{state}, Args: #{args}
-      Event: #{_event}
+      Command type: #{type}, State: #{state}, Args: #{args.inspect}
+      Event: #{_event.inspect}
     INFO
 
     command = Discord::Command.new(args)
