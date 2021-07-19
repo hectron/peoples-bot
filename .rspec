@@ -1,1 +1,2 @@
 --require spec_helper
+-r ./app/beach_sand.rb
