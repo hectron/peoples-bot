@@ -4,6 +4,7 @@ require_relative "./app/constants"
 require_relative "./app/discord/command"
 require_relative "./app/vaccine_spotter/api"
 require_relative "./app/vaccine_spotter/result"
+require_relative "./app/beach_sand"
 
 LOGGER = Logger.new($stdout)
 LOGGER.level = Logger::INFO
