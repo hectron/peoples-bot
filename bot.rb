@@ -53,7 +53,7 @@ bot.command(
   description: "Primes the sands for temporary messaging.",
   usage: "React to the first message the bot posted with :ocean: to cause a deluge",
 ) do |event|
-  msg = event.response "The waves subside. For a brief moment, you can write in sand before then next tide. When you are done, react to the bot message with :ocean:."
+  msg = event.respond "The waves subside. For a brief moment, you can write in sand before then next tide. When you are done, react to the bot message with :ocean:."
   done_emoji = "\u{1f30a}"
 
   msg.react(done_emoji)
