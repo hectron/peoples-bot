@@ -45,27 +45,4 @@ describe BeachSand::Structs::DiscordMessage do
       end
     end
   end
-
-  describe "#between_time?" do
-    let(:instance) { BeachSand::Structs::DiscordMessage.new(id: 1, author_id: 1, timestamp: Time.now) }
-    let(:now) { Time.now }
-    let(:tomorrow) { Time.at(Time.now.to_i + (60 * 60 * 24)) }
-    let(:yesterday) { Time.at(Time.now.to_i - (60 * 60 * 24)) }
-
-    context "when the start time is after the end time" do
-      it "is false" do
-        expect(instance.between_time?(tomorrow, yesterday)).to be_falsey
-      end
-    end
-
-    context "when the start time is before the end time" do
-      it "is true if the timestamp is between both times" do
-        expect(instance.between_time?(yesterday, tomorrow)).to be_truthy
-      end
-
-      it "is false if the timestamp is not between both times" do
-        expect(instance.between_time?(tomorrow, Time.at(tomorrow.to_i + 60 * 60 * 24))).to be_falsey
-      end
-    end
-  end
 end

@@ -21,12 +21,6 @@ module BeachSand
       def deletable?
         timestamp.to_time.to_i > (Time.now.to_i - TwoWeeksAgo)
       end
-
-      def between_time?(start_time, end_time)
-        message_time = timestamp.to_time.to_i 
-
-        message_time >= start_time.to_i && message_time <= end_time.to_i
-      end
     end
   end
 end
