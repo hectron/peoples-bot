@@ -59,7 +59,7 @@ bot.command(
   msg.react(done_emoji)
 
   bot.add_await!(Discordrb::Events::ReactionAddEvent, emoji: done_emoji, timeout: 600, message: msg) do |reaction_event|
-    deleter = BeachSand::MessageDeleter.new(message_id: msg.idd, channel_id: msg.channel.id, api_token: bot.token)
+    deleter = BeachSand::MessageDeleter.new(message_id: msg.id, channel_id: msg.channel.id, api_token: bot.token)
 
     begin
       deleter.execute
