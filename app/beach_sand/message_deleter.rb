@@ -21,7 +21,7 @@ module BeachSand
 
       messages = fetch_messages
 
-      if messages.any?
+      unless messages.any?
         raise NoMessagesError, "Could not find any messages in channel: #{@channel_id} after message id: #{@message_id}"
       end
 
@@ -51,14 +51,17 @@ module BeachSand
         break unless api_response.code == 200
 
         messages = BeachSand::Structs::DiscordMessage
-          .from_api_response(JSON.parse(api_response))
+          .from_api_response(JSON.parse(api_response.to_s))
           .select(&:deletable?)
 
         break unless messages.any?
 
+        new_max_id = messages.map(&:id).max
+
         all_messages += messages
 
-        max_id = messages.map(&:id).max
+        break if new_max_id == max_id
+        max_id = new_max_id
       end
 
       all_messages
@@ -66,8 +69,8 @@ module BeachSand
 
     def delete_messages(messages)
       messages.each_slice(MaxNumberOfMessages) do |message_slice|
-        LOGGER.info "Deleting messages: #{message_slice.size}"
-        LOGGER.info "Message ID: #{message_slice.map(&:id)}"
+        # LOGGER.info "Deleting messages: #{message_slice.size}"
+        # LOGGER.info "Message ID: #{message_slice.map(&:id)}"
 
         Discordrb::API::Channel.bulk_delete_messages(
           @api_token,
