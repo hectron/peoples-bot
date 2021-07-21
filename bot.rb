@@ -62,6 +62,7 @@ bot.command(
     deleter = BeachSand::MessageDeleter.new(message_id: msg.id, channel_id: msg.channel.id, api_token: bot.token)
 
     begin
+      msg.delete
       deleter.execute
     rescue NoMessagesError, ArgumentError => e
       LOGGER.error(e)
