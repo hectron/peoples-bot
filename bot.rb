@@ -47,12 +47,18 @@ VACCINE_TYPES.each do |type|
   end
 end
 
+ChannelIdsWithActiveBeaches = Set.new([])
+
 bot.command(
   :beach,
   help_available: true,
   description: "Primes the sands for temporary messaging.",
   usage: "React to the first message the bot posted with :ocean: to cause a deluge",
 ) do |event|
+  unless ChannelIdsWithActiveBeaches.add?(event.channel.id)
+    next "There is a current beach session in progress. This will be ignored until then."
+  end
+
   msg = event.respond "The waves subside. For a brief moment, you can write in sand before then next tide. When you are done, react to the bot message with :ocean:."
   done_emoji = "\u{1f30a}"
 
@@ -72,6 +78,8 @@ bot.command(
     rescue BeachSand::MessageDeleter::NoMessagesError, ArgumentError => e
       LOGGER.error(e)
     end
+
+    ChannelIdsWithActiveBeaches.delete?(msg.channel.id)
 
     reaction_event.respond "The tides roll in, and the sand begins to smooth out."
   end
