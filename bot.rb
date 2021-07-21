@@ -69,7 +69,7 @@ bot.command(
     begin
       msg.delete
       deleter.execute
-    rescue NoMessagesError, ArgumentError => e
+    rescue BeachSand::MessageDeleter::NoMessagesError, ArgumentError => e
       LOGGER.error(e)
     end
 
