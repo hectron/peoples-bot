@@ -59,6 +59,11 @@ bot.command(
   msg.react(done_emoji)
 
   bot.add_await!(Discordrb::Events::ReactionAddEvent, emoji: done_emoji, timeout: 600, message: msg) do |reaction_event|
+    # Since this code will run on every :ocean: reaction, it might not
+    # be on our time message we sent earlier. We use `next` to skip the rest
+    # of the block unless it was our message that was reacted to.
+    next true unless reaction_event.message.id == msg.id
+
     deleter = BeachSand::MessageDeleter.new(message_id: msg.id, channel_id: msg.channel.id, api_token: bot.token)
 
     begin
@@ -69,6 +74,8 @@ bot.command(
     end
 
     reaction_event.respond "The tides roll in, and the sand begins to smooth out."
+
+    next true
   end
 end
 
