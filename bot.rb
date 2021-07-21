@@ -74,9 +74,9 @@ bot.command(
     end
 
     reaction_event.respond "The tides roll in, and the sand begins to smooth out."
-
-    next true
   end
+
+  nil
 end
 
 at_exit { bot.stop }
