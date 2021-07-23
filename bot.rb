@@ -82,5 +82,13 @@ bot.command(
   nil
 end
 
+bot.command(:gh, help_available: true, description: "Returns a url to view the latest code release") do |_event|
+  if Application.sha
+    "https://github.com/hectron/peoples-bot/commit/#{Application.sha}"
+  else
+    "Could not determine current SHA."
+  end
+end
+
 at_exit { bot.stop }
 bot.run
