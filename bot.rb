@@ -73,7 +73,7 @@ bot.command(
       msg.delete
       deleter.execute
     rescue BeachSand::MessageDeleter::NoMessagesError, ArgumentError => e
-      LOGGER.error(e)
+      BobLog.error(e)
     end
 
     ChannelIdsWithActiveBeaches.delete?(msg.channel.id)
