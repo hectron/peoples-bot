@@ -9,8 +9,6 @@ require_relative "./app/beach_sand"
 LOGGER = Logger.new($stdout)
 LOGGER.level = Logger::INFO
 Sha = ENV.fetch("HEROKU_SLUG_COMMIT", "")[0..7]
-status = "#{BOT_COMMAND_PREFIX} help"
-status += "| version: #{Sha}" if Sha
 
 bot = Discordrb::Commands::CommandBot.new(
   token: ENV["DISCORD_BOT_CLIENT_TOKEN"],
@@ -18,7 +16,12 @@ bot = Discordrb::Commands::CommandBot.new(
   prefix: BOT_COMMAND_PREFIX,
 )
 
-bot.update_status("online", status, nil)
+bot.add_await!(Discordrb::Events::ReadyEvent) do |ready_event|
+  status = "#{BOT_COMMAND_PREFIX} help"
+  status += "| version: #{Sha}" if Sha
+
+  bot.update_status("online", status, nil)
+end
 
 VACCINE_TYPES.each do |type|
   command_config = {
