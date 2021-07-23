@@ -37,7 +37,8 @@ VaccineSpotter::VaccineTypes.each do |type|
       zipcodes: location_message.zipcodes,
     )
 
-    VaccineSpotter::Result.display(locations)
+    # hacky, but we need a way to ensure that the ERB isn't over-rendering
+    VaccineSpotter::Result.display(locations.first(10))
   end
 end
 
