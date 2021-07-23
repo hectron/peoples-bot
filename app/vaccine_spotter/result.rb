@@ -1,6 +1,6 @@
 module VaccineSpotter
   class Result
-    MESSAGE_CHARACTER_LIMIT = 2_000
+    MessageCharacterLimit = 2_000
 
     # @param locations [Array<Location>]
     def self.display(locations)
@@ -18,7 +18,7 @@ module VaccineSpotter
         - #{location.appointments.size} appointment(s) for the #{location.vaccine_types.join(" and ")} vaccine at #{location.name} (#{location.provider}) - #{location.city}, #{location.state} #{location.postal_code} (website: #{location.url})
         MSG
 
-        if (output + msg).size < MESSAGE_CHARACTER_LIMIT
+        if (output + msg).size < MessageCharacterLimit
           output += "\n"
           output += msg
         else

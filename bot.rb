@@ -12,7 +12,7 @@ bot.ready do |ready_event|
   bot.update_status("online", Application.bot_status, nil)
 end
 
-VACCINE_TYPES.each do |type|
+VaccineSpotter::VaccineTypes.each do |type|
   command_config = {
     help_available: true,
     description: "Find #{type} vaccines",
@@ -28,19 +28,16 @@ VACCINE_TYPES.each do |type|
   }
 
   bot.command(type.to_sym, command_config) do |_event, state, *args|
-    BobLog.info "Command type: #{type}, State: #{state}, Args: #{args.inspect}"
+    location_message = VaccineSpotter::LocationMessageParser.new(args)
 
-    command = Discord::Command.new(args)
     locations = VaccineSpotter::Api.find_in(
       state: state,
       vaccine_type: type,
-      city: command.city,
-      zipcodes: command.zipcodes,
+      city: location_message.city,
+      zipcodes: location_message.zipcodes,
     )
 
-    VaccineSpotter::Result.display(locations).tap do |msg|
-      BobLog.info msg
-    end
+    VaccineSpotter::Result.display(locations)
   end
 end
 
