@@ -9,6 +9,7 @@ require_relative "./app/beach_sand"
 LOGGER = Logger.new($stdout)
 LOGGER.level = Logger::INFO
 Sha = ENV.fetch("HEROKU_SLUG_COMMIT", "")[0..7]
+Tag = ENV["HEROKU_RELEASE_VERSION"]
 
 bot = Discordrb::Commands::CommandBot.new(
   token: ENV["DISCORD_BOT_CLIENT_TOKEN"],
@@ -18,7 +19,8 @@ bot = Discordrb::Commands::CommandBot.new(
 
 bot.ready do |ready_event|
   status = "#{BOT_COMMAND_PREFIX} help"
-  status += "| version: #{Sha}" if Sha
+  status += " | #{Tag}" if Tag
+  status += " | version: #{Sha}" if Sha
 
   bot.update_status("online", status, nil)
 end
