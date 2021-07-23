@@ -36,12 +36,15 @@ describe VaccineSpotter::Result do
       }
 
       it "provides a summary of available appointments" do
-        expect(described_class.display(locations)).to eq(<<~MSG.strip)
-        Found a total of 3 appointments! _Due to message limits, less results might be displayed_.
-
-        - 1 appointment(s) for the jj vaccine at Taco (Walmart) - Chicago, IL 60601 (website: https://test-walmart.com)
-        - 2 appointment(s) for the jj and pfizer and moderna vaccine at Bell (CVS) - Chicago, IL 60613 (website: https://cvs-test.com)
-        MSG
+        expect(described_class.display(locations)).to match(
+          a_string_including(
+            "Found a total of 3 appointments! _Due to message limits, less results might be displayed_.",
+            "[Walmart Taco](https://test-walmart.com) has the following appointments available:",
+            "- 1 appointment in 60601",
+            "[CVS Bell](https://cvs-test.com) has the following appointments available:",
+              "- 2 appointments in 60613",
+          )
+        )
       end
 
       it "truncates the message within the character limit" do

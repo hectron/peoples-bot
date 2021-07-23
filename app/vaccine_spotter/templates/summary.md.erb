@@ -1,0 +1,14 @@
+<%= found_appointments_message -%>
+
+<% locations.group_by(&:provider).each do |provider_name, provider_locations| -%>
+<% cased_provider_name = provider_name[0].upcase + provider_name[1..-1] -%>
+<% provider_locations.group_by(&:url).each do |url, locations_with_similar_url| -%>
+<% locations_with_similar_url.flatten.group_by(&:name).each do |location_name, locations_by_name| %>
+[<%= cased_provider_name %> <%= location_name %>](<%=url %>) has the following appointments available:
+<% locations_by_name.group_by(&:postal_code).each do |postal_code, locations_in_postal_code| -%>
+<% number_of_appointments = locations_in_postal_code.flatten.flat_map(&:appointments).size -%>
+  - <%= number_of_appointments > 1 ? "#{number_of_appointments} appointments" : "1 appointment" %> in <%= postal_code %>
+<% end -%>
+<% end -%>
+<% end -%>
+<% end -%>

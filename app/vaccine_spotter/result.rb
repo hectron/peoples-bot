@@ -1,3 +1,5 @@
+require "erb"
+
 module VaccineSpotter
   class Result
     MessageCharacterLimit = 2_000
@@ -5,28 +7,21 @@ module VaccineSpotter
     # @param locations [Array<Location>]
     def self.display(locations)
       return "Did not find any appointments." if locations.none?
-
       total_appointments = locations.sum { |location| location.appointments.size }
-      output = if total_appointments.size == 1
-                 "Found a total of #{total_appointments} appointment!\n"
+      found_appointments_message = if total_appointments.size == 1
+                 "Found a total of #{total_appointments} appointment!"
                else
-                 "Found a total of #{total_appointments} appointments! _Due to message limits, less results might be displayed_.\n"
+                 "Found a total of #{total_appointments} appointments! _Due to message limits, less results might be displayed_."
                end
 
-      locations.each do |location|
-        msg = <<~MSG.strip
-        - #{location.appointments.size} appointment(s) for the #{location.vaccine_types.join(" and ")} vaccine at #{location.name} (#{location.provider}) - #{location.city}, #{location.state} #{location.postal_code} (website: #{location.url})
-        MSG
+      erb_file = File.read(File.join(__dir__, "templates", "summary.md.erb"))
 
-        if (output + msg).size < MessageCharacterLimit
-          output += "\n"
-          output += msg
-        else
-          break
-        end
-      end
-
-      output
+      ERB
+        .new(erb_file, trim_mode: "-")
+        .result_with_hash({
+          found_appointments_message: found_appointments_message,
+          locations: locations
+        })
     end
   end
 end
