@@ -18,7 +18,7 @@ bot = Discordrb::Commands::CommandBot.new(
 )
 
 bot.ready do |ready_event|
-  status = "#{BOT_COMMAND_PREFIX} help"
+  status = "Type #{BOT_COMMAND_PREFIX}help for help"
   status += " | #{Tag}" if Tag
   status += " | version: #{Sha}" if Sha
 
