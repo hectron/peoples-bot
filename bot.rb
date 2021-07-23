@@ -16,7 +16,7 @@ bot = Discordrb::Commands::CommandBot.new(
   prefix: BOT_COMMAND_PREFIX,
 )
 
-bot.add_await!(Discordrb::Events::ReadyEvent) do |ready_event|
+bot.ready do |ready_event|
   status = "#{BOT_COMMAND_PREFIX} help"
   status += "| version: #{Sha}" if Sha
 
