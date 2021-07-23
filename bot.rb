@@ -12,38 +12,6 @@ bot.ready do |_ready_event|
   bot.update_status("online", Application.bot_status, nil)
 end
 
-VACCINE_TYPES.each do |type|
-  command_config = {
-    help_available: true,
-    description: "Find #{type} vaccines",
-    usage: <<~USAGE.strip
-      #{Application.bot_prefix}#{type} <STATE> [<CITY> (optional)] <zipcode1> <zipcode2> ... <zipcodeN>
-
-      Examples:
-        #{Application.bot_prefix}#{type} IL
-        #{Application.bot_prefix}#{type} IL Chicago
-        #{Application.bot_prefix}#{type} IL 60601 60613 60657
-        #{Application.bot_prefix}#{type} IL Chicago 60613 60660
-    USAGE
-  }
-
-  bot.command(type.to_sym, command_config) do |_event, state, *args|
-    BobLog.info "Command type: #{type}, State: #{state}, Args: #{args.inspect}"
-
-    command = Discord::Command.new(args)
-    locations = VaccineSpotter::Api.find_in(
-      state: state,
-      vaccine_type: type,
-      city: command.city,
-      zipcodes: command.zipcodes,
-    )
-
-    VaccineSpotter::Result.display(locations).tap do |msg|
-      BobLog.info msg
-    end
-  end
-end
-
 commands = [
   VaccineSpotter::DiscordCommand.all,
   BeachSand::DiscordCommand,
