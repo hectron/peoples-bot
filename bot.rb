@@ -8,7 +8,7 @@ require_relative "./app/beach_sand"
 
 LOGGER = Logger.new($stdout)
 LOGGER.level = Logger::INFO
-Sha = ENV.fetch("HEROKU_SLUG_COMMIT", "")[..7]
+Sha = ENV.fetch("HEROKU_SLUG_COMMIT", "")[0..7]
 status = "#{prefix} help"
 status += "| version: #{Sha}" if Sha
 
