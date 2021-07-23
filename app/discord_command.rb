@@ -45,7 +45,7 @@ class DiscordCommand
   end
 
   def register
-    @bot.command(self.class.name, self.class.description, self.class.config) do |*args|
+    @bot.command(self.class.name, self.class.config) do |*args|
       self.class.event_handler.call(args)
     end
   end
