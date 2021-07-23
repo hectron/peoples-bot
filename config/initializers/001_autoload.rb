@@ -4,7 +4,8 @@ autoload_paths = %w(
 )
 
 autoload_paths.each do |path|
-  Dir.glob(File.join(Application.root, path, "**", "*.rb")).sort.each do |file|
-    require file
-  end
+  Dir
+    .glob(File.join(Application.root, path, "**", "*.rb"))
+    .sort_by {|f| f.count("/") } # sorts files breadth first
+    .each { |file| puts file; require file }
 end
