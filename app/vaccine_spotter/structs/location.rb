@@ -19,6 +19,7 @@ module VaccineSpotter
               vaccine_types: appointment["vaccine_types"],
             )
           end
+        )
       end
     end
   end

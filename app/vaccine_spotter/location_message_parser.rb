@@ -43,5 +43,6 @@ module VaccineSpotter
                          end
                        end
 
+    end
   end
 end

@@ -24,7 +24,7 @@ module VaccineSpotter
         properties = feature.dig("properties")
 
         next unless valid_properties?(properties)
-        relevant_appointments = extract_valid_appointments(properties["appointments"])
+        relevant_appointments = extract_relevant_appointments(properties["appointments"])
         next unless relevant_appointments.any?
 
         locations << VaccineSpotter::Structs::Location
@@ -35,7 +35,7 @@ module VaccineSpotter
       end
     end
 
-    def extract_valid_properties(properties)
+    def valid_properties?(properties)
       return false unless properties["appointments_available"]
       return false if @vaccine_type && !properties["appointment_vaccine_types"][@vaccine_type]
       return false if @city && properties["city"]&.downcase != @city
