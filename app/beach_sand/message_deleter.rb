@@ -69,8 +69,8 @@ module BeachSand
 
     def delete_messages(messages)
       messages.each_slice(MaxNumberOfMessages) do |message_slice|
-        # LOGGER.info "Deleting messages: #{message_slice.size}"
-        # LOGGER.info "Message ID: #{message_slice.map(&:id)}"
+        BobLog.info "Deleting messages: #{message_slice.size}"
+        BobLog.info "Message ID: #{message_slice.map(&:id)}"
 
         Discordrb::API::Channel.bulk_delete_messages(
           @api_token,

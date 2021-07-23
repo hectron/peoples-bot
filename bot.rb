@@ -1,10 +1,6 @@
-require "logger"
 require "discordrb"
 
 require_relative "./config/initializers"
-
-LOGGER = Logger.new($stdout)
-LOGGER.level = Logger::INFO
 
 bot = Discordrb::Commands::CommandBot.new(
   token: Application.bot_token,
@@ -32,7 +28,7 @@ VACCINE_TYPES.each do |type|
   }
 
   bot.command(type.to_sym, command_config) do |_event, state, *args|
-    LOGGER.info "Command type: #{type}, State: #{state}, Args: #{args.inspect}"
+    BobLog.info "Command type: #{type}, State: #{state}, Args: #{args.inspect}"
 
     command = Discord::Command.new(args)
     locations = VaccineSpotter::Api.find_in(
@@ -43,7 +39,7 @@ VACCINE_TYPES.each do |type|
     )
 
     VaccineSpotter::Result.display(locations).tap do |msg|
-      LOGGER.info msg
+      BobLog.info msg
     end
   end
 end

@@ -97,4 +97,8 @@ RSpec.configure do |config|
   # as the one that triggered the failure.
   Kernel.srand config.seed
 =end
+  BobLog.configure do |logger|
+    logger.device = StringIO.new
+    logger.level = Logger::WARN
+  end
 end
