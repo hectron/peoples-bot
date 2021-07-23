@@ -46,8 +46,7 @@ class DiscordCommand
 
   def register
     @bot.command(self.class.name, self.class.config) do |*args|
-      BobLog.info "Base discord command args: #{args.inspect}"
-      self.class.event_handler.call(*args)
+      self.class.event_handler.call(args)
     end
   end
 end
