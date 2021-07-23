@@ -1,28 +1,19 @@
 require "logger"
 require "discordrb"
-require_relative "./app/constants"
-require_relative "./app/discord/command"
-require_relative "./app/vaccine_spotter/api"
-require_relative "./app/vaccine_spotter/result"
-require_relative "./app/beach_sand"
+
+require_relative "./config/initializers"
 
 LOGGER = Logger.new($stdout)
 LOGGER.level = Logger::INFO
-Sha = ENV.fetch("HEROKU_SLUG_COMMIT", "")[0..7]
-Tag = ENV["HEROKU_RELEASE_VERSION"]
 
 bot = Discordrb::Commands::CommandBot.new(
-  token: ENV["DISCORD_BOT_CLIENT_TOKEN"],
-  client_id: ENV["DISCORD_BOT_CLIENT_ID"],
-  prefix: BOT_COMMAND_PREFIX,
+  token: Application.bot_token,
+  client_id: Application.bot_client_id,
+  prefix: Application.bot_prefix,
 )
 
 bot.ready do |ready_event|
-  status = "Type #{BOT_COMMAND_PREFIX}help for help"
-  status += " | #{Tag}" if Tag
-  status += " | version: #{Sha}" if Sha
-
-  bot.update_status("online", status, nil)
+  bot.update_status("online", Application.bot_status, nil)
 end
 
 VACCINE_TYPES.each do |type|
@@ -30,13 +21,13 @@ VACCINE_TYPES.each do |type|
     help_available: true,
     description: "Find #{type} vaccines",
     usage: <<~USAGE.strip
-      !#{type} <STATE> [<CITY> (optional)] <zipcode1> <zipcode2> ... <zipcodeN>
+      #{Application.bot_prefix}#{type} <STATE> [<CITY> (optional)] <zipcode1> <zipcode2> ... <zipcodeN>
 
       Examples:
-        !#{type} IL
-        !#{type} IL Chicago
-        !#{type} IL 60601 60613 60657
-        !#{type} IL Chicago 60613 60660
+        #{Application.bot_prefix}#{type} IL
+        #{Application.bot_prefix}#{type} IL Chicago
+        #{Application.bot_prefix}#{type} IL 60601 60613 60657
+        #{Application.bot_prefix}#{type} IL Chicago 60613 60660
     USAGE
   }
 
