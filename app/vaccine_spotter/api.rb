@@ -1,12 +1,9 @@
 require "json"
 require "net/http"
 
-require_relative "./appointment"
-require_relative "./location"
-
 module VaccineSpotter
   class Api
-    API_URL = "https://www.vaccinespotter.org/api/v0/states".freeze
+    Url = "https://www.vaccinespotter.org/api/v0/states".freeze
 
     def self.find_in(state:, vaccine_type: nil, city: nil, zipcodes: [])
       new(state, vaccine_type, city, zipcodes).find
@@ -20,33 +17,38 @@ module VaccineSpotter
     end
 
     def find
-      uri = URI("#{API_URL}/#{@state}.json")
+      uri = URI("#{Url}/#{@state}.json")
       data = JSON.parse(Net::HTTP.get(uri))
 
       data["features"].each_with_object([]) do |feature, locations|
         properties = feature.dig("properties")
-        next unless properties["appointments_available"]
-        next if @vaccine_type && !properties["appointment_vaccine_types"][@vaccine_type]
-        next if @city && properties["city"]&.downcase != @city
-        next if @zipcodes.any? && !@zipcodes.include?(properties["postal_code"])
 
-        relevant_appointments = properties["appointments"].reject do |appointment|
-          next true unless appointment.has_key?("vaccine_types")
-          next false if @vaccine_type.nil?
-          !appointment["vaccine_types"].include?(@vaccine_type)
-        end
+        next unless valid_properties?(properties)
+        relevant_appointments = extract_relevant_appointments(properties["appointments"])
+        next unless relevant_appointments.any?
 
-        if relevant_appointments.any?
-          locations << VaccineSpotter::Location.new(name: properties["name"],
-                                                    provider: properties["provider"],
-                                                    url: properties["url"],
-                                                    city: properties["city"],
-                                                    state: properties["state"],
-                                                    postal_code: properties["postal_code"],
-                                                    appointments: relevant_appointments.map do |appointment|
-                                                      VaccineSpotter::Appointment.new(time: appointment["time"], vaccine_types: appointment["vaccine_types"])
-                                                    end)
-        end
+        locations << VaccineSpotter::Structs::Location
+          .with_properties_and_appointments(
+            properties,
+            relevant_appointments
+          )
+      end
+    end
+
+    def valid_properties?(properties)
+      return false unless properties["appointments_available"]
+      return false if @vaccine_type && !properties["appointment_vaccine_types"][@vaccine_type]
+      return false if @city && properties["city"]&.downcase != @city
+      return false if @zipcodes.any? && !@zipcodes.include?(properties["postal_code"])
+
+      true
+    end
+
+    def extract_relevant_appointments(appointments)
+      appointments.reject do |appointment|
+        next true unless appointment.has_key?("vaccine_types")
+        next false if @vaccine_type.nil?
+        !appointment["vaccine_types"].include?(@vaccine_type)
       end
     end
   end

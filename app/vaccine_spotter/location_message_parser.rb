@@ -1,5 +1,5 @@
-module Discord
-  class Command
+module VaccineSpotter
+  class LocationMessageParser
     def initialize(args)
       @args = args
     end
@@ -42,6 +42,7 @@ module Discord
                            end
                          end
                        end
+
     end
   end
 end

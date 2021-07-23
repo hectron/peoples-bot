@@ -1,6 +1,4 @@
-require_relative "../../../app/discord/command"
-
-describe Discord::Command do
+describe VaccineSpotter::LocationMessageParser do
   let(:instance) { described_class.new(discord_args) }
 
   context "one-word cities" do
