@@ -5,6 +5,12 @@ prove out some simple functionalities.
 
 ## Commands
 
+All of the commands are prefixed using `!`.
+
+To get help, use: `!help`
+
+To get help on any command, use: `!help <command>`
+
 ### COVID-19 Vaccine Finder
 
 It's really easy to find a `COVID-19` vaccine using this bot. You can search for
@@ -34,6 +40,14 @@ This command lasts for about 10 minutes.
 | Usage    | Description                                                                                                                                             |
 | -----    | -------                                                                                                                                                 |
 | `!beach` | Starts a beach session in the current channel. Only one can be active at once. If no one reacts to the bot message, the conversation will be **saved.** |
+
+### Github
+
+There's a lightweight command that allows the user to view the commit that is currently deployed.
+
+| Usage | Description                                                                                       |
+| ----- | ---------                                                                                         |
+| `!gh` | There's a lightweight command that allows the user to view the commit that is currently deployed. |
 
 ## Installing in your Discord server
 
