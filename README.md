@@ -13,6 +13,7 @@ Currently, the `pfizer`, `moderna` and `jj` (Johnson & Johnson) vaccines are
 searchable.
 
 | Usage                                                                           | Description                                                                                                                   |
+| -----                                                                           | ------                                                                                                                        |
 | `!<vaccine-type> <state> [<city> (optional)] <zipcode> <zipcode> ... <zipcode>` | Example command.                                                                                                              |
 | `!pfizer IL`                                                                    | Find all pfizer vaccine appointments in Illinois.                                                                             |
 | `!pfizer IL Springfield`                                                        | Find all pfizer vaccines in Springfield, IL.                                                                                  |
@@ -31,6 +32,7 @@ reaction.
 This command lasts for about 10 minutes.
 
 | Usage    | Description                                                                                                                                             |
+| -----    | -------                                                                                                                                                 |
 | `!beach` | Starts a beach session in the current channel. Only one can be active at once. If no one reacts to the bot message, the conversation will be **saved.** |
 
 ## Installing in your Discord server
