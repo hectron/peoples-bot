@@ -1,31 +1,37 @@
-# vaccine-spotter Discord bot
+# People's Bot
 
-Find a COVID-19 vaccine in the comfort of your Discord community.
+This is a bot that has a hodgepodge of commands. This was originally a way to
+prove out some simple functionalities.
 
-## Usage
+## Commands
 
-You can search for a specific vaccine within your state (and zip codes) by using the guide below. Currently, the `pfizer`, `moderna` and `jj` (Johnson & Johnson) vaccines are searchable.
+### COVID-19 Vaccine Finder
 
-```console
-# The following is the format for a Discord command
-# !<vaccine-type> <state> [<city> (optional)] <zipcode> <zipcode> ... <zipcode>
+It's really easy to find a `COVID-19` vaccine using this bot. You can search for
+a specific vaccine within your state (and zip codes) by using the guide below.
+Currently, the `pfizer`, `moderna` and `jj` (Johnson & Johnson) vaccines are
+searchable.
 
-# finds all pfizer vaccines in Illinois
-!pfizer IL
+| Usage                                                                           | Description                                                                                                                   |
+| `!<vaccine-type> <state> [<city> (optional)] <zipcode> <zipcode> ... <zipcode>` | Example command.                                                                                                              |
+| `!pfizer IL`                                                                    | Find all pfizer vaccine appointments in Illinois.                                                                             |
+| `!pfizer IL Springfield`                                                        | Find all pfizer vaccines in Springfield, IL.                                                                                  |
+| `!moderna CA`                                                                   | Find all moderna vaccine appointmens in California.                                                                           |
+| `!jj NY 11201 11208 11204`                                                      | Find all johnson & johnson vaccines in the Brooklyn Heights, Cobble Hill, Cypress Hills and Parkville New York neighborhoods. |
 
-# find all pfizer vaccines in Springfield, IL
-!pfizer IL Springfield
+### Beach Sand
 
-# finds all moderna vaccines in California
-!moderna CA
+An off-the-record-like command. When invoked, this command sends a message to
+the channel, initiating the session and reacts to that message with an :ocean: reaction.
 
-# finds all moderna vaccines in Los Angeles, California
-!moderna CA Los Angeles
+Any conversation that is had after that bot message will be eligible to be
+deleted until someone reacts to the original bot message with the :ocean:
+reaction.
 
-# finds all johnson & johnson vaccines in the Brooklyn Heights, Cobble Hill,
-# Cypress Hills and Parkville New York neighborhoods
-!jj NY 11201 11208 11204
-```
+This command lasts for about 10 minutes.
+
+| Usage    | Description                                                                                                                                             |
+| `!beach` | Starts a beach session in the current channel. Only one can be active at once. If no one reacts to the bot message, the conversation will be **saved.** |
 
 ## Installing in your Discord server
 
@@ -53,3 +59,11 @@ If you'd like to deploy this to your own personal **[Heroku](https://heroku.com)
 - `DISCORD_BOT_CLIENT_ID`
 
 **NOTE:** `Discordrb::Commands::CommandBot` uses websockets to connect to Discord. When deploying to **[Heroku](https://heroku.com)**, make sure the application has worker dynos enabled so that the application does not shutdown.
+
+#### Optional
+
+When the bot is initializing, it uses the two following environment variables to
+set it's own status:
+
+- `HEROKU_SLUG_COMMIT` - the SHA of the deployed code
+- `HEROKU_RELEASE_VERSION` - the release version of the code
