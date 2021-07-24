@@ -1,53 +1,42 @@
 # People's Bot
 
-This is a bot that has a hodgepodge of commands. This was originally a way to
-prove out some simple functionalities.
+This is a bot that has a hodgepodge of commands. This was originally a way to prove out some simple functionalities.
 
 ## Commands
 
-All of the commands are prefixed using `!`.
+Below is a list of all the commands supported. For more details on each one, read the section below.
 
-To get help, use: `!help`
+**Note:** All of the commands are prefixed using `!`. 
 
-To get help on any command, use: `!help <command>`
+| Command                                                              | Description                                                                                                                                                       |
+| -----                                                                | ------                                                                                                                                                            |
+| `!help`                                                              | Shows all the commands available                                                                                                                                  |
+| `!help <command>`                                                    | Shows the help option for that specific command.                                                                                                                  |
+| `!<vaccine-type> <state> [<city>] <zipcode> <zipcode> ... <zipcode>` | Example vaccine command.                                                                                                                                          |
+| `!pfizer IL`                                                         | Find all pfizer vaccine appointments in Illinois.                                                                                                                 |
+| `!pfizer IL Springfield`                                             | Find all pfizer vaccines in Springfield, IL.                                                                                                                      |
+| `!moderna CA`                                                        | Find all moderna vaccine appointmens in California.                                                                                                               |
+| `!jj NY 11201 11208 11204`                                           | Find all johnson & johnson vaccines in the Brooklyn Heights, Cobble Hill, Cypress Hills and Parkville New York neighborhoods.                                     |
+| `!beach`                                                             | Starts a beach (OTR) session in the current channel. Only one can be active per channel. If no one reacts to the bot message, the conversation will be **saved.** |
+| `!gh`                                                                | Returns a link to the commit that is currently deployed.                                                                                                          |
 
 ### COVID-19 Vaccine Finder
 
-It's really easy to find a `COVID-19` vaccine using this bot. You can search for
-a specific vaccine within your state (and zip codes) by using the guide below.
-Currently, the `pfizer`, `moderna` and `jj` (Johnson & Johnson) vaccines are
-searchable.
+It's really easy to find a `COVID-19` vaccine using this bot. You can search for a specific vaccine within your state (and zip codes) by using the guide below. Currently, the `pfizer`, `moderna` and `jj` (Johnson & Johnson) vaccines are searchable.
 
-| Usage                                                                           | Description                                                                                                                   |
-| -----                                                                           | ------                                                                                                                        |
-| `!<vaccine-type> <state> [<city> (optional)] <zipcode> <zipcode> ... <zipcode>` | Example command.                                                                                                              |
-| `!pfizer IL`                                                                    | Find all pfizer vaccine appointments in Illinois.                                                                             |
-| `!pfizer IL Springfield`                                                        | Find all pfizer vaccines in Springfield, IL.                                                                                  |
-| `!moderna CA`                                                                   | Find all moderna vaccine appointmens in California.                                                                           |
-| `!jj NY 11201 11208 11204`                                                      | Find all johnson & johnson vaccines in the Brooklyn Heights, Cobble Hill, Cypress Hills and Parkville New York neighborhoods. |
+This uses the https://vaccinespotter.org API to render appointments.
 
 ### Beach Sand
 
-An off-the-record-like command. When invoked, this command sends a message to
-the channel, initiating the session and reacts to that message with an :ocean: reaction.
+An off-the-record-like command. When invoked, this command sends a message to the channel, initiating the session and reacts to that message with an :ocean: reaction.
 
-Any conversation that is had after that bot message will be eligible to be
-deleted until someone reacts to the original bot message with the :ocean:
-reaction.
+Any conversation that is had after that bot message will be eligible to be deleted until someone reacts to the original bot message with the :ocean: reaction.
 
 This command lasts for about 10 minutes.
 
-| Usage    | Description                                                                                                                                             |
-| -----    | -------                                                                                                                                                 |
-| `!beach` | Starts a beach session in the current channel. Only one can be active at once. If no one reacts to the bot message, the conversation will be **saved.** |
-
 ### Github
 
-There's a lightweight command that allows the user to view the commit that is currently deployed.
-
-| Usage | Description                                                                                       |
-| ----- | ---------                                                                                         |
-| `!gh` | There's a lightweight command that allows the user to view the commit that is currently deployed. |
+This command specifically returns a link to the latest deploy SHA.
 
 ## Installing in your Discord server
 
