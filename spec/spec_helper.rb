@@ -13,6 +13,8 @@
 # it.
 #
 # See http://rubydoc.info/gems/rspec-core/RSpec/Core/Configuration
+require "stub_env"
+
 RSpec.configure do |config|
   # rspec-expectations config goes here. You can use an alternate
   # assertion/expectation library such as wrong or the stdlib/minitest
@@ -101,4 +103,6 @@ RSpec.configure do |config|
     logger.device = StringIO.new
     logger.level = Logger::WARN
   end
+
+  config.include StubEnv::Helpers
 end

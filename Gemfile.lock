@@ -47,6 +47,8 @@ GEM
       diff-lcs (>= 1.2.0, < 2.0)
       rspec-support (~> 3.10.0)
     rspec-support (3.10.2)
+    stub_env (1.0.4)
+      rspec (>= 2.0, < 4.0)
     unf (0.1.4)
       unf_ext
     unf_ext (0.0.7.7)
@@ -64,6 +66,7 @@ DEPENDENCIES
   pry
   redis
   rspec
+  stub_env
 
 BUNDLED WITH
    2.2.15
