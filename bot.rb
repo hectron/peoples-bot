@@ -42,15 +42,16 @@ VaccineSpotter::VaccineTypes.each do |type|
   end
 end
 
-ChannelIdsWithActiveBeaches = Set.new([])
-
 bot.command(
   :beach,
   help_available: true,
   description: "Primes the sands for temporary messaging.",
   usage: "React to the first message the bot posted with :ocean: to cause a deluge",
 ) do |event|
-  unless ChannelIdsWithActiveBeaches.add?(event.channel.id)
+  session_name = event.channel.id
+  session_timeout = 1_000 * 60 * 10 # 10 minutes in milliseconds
+
+  unless BeachSand::SessionManager.acquire_lock(session_name, timeout: session_timeout)
     next "There is a current beach session in progress. This will be ignored until then."
   end
 
@@ -59,7 +60,7 @@ bot.command(
 
   msg.react(done_emoji)
 
-  bot.add_await!(Discordrb::Events::ReactionAddEvent, emoji: done_emoji, timeout: 600, message: msg) do |reaction_event|
+  bot.add_await!(Discordrb::Events::ReactionAddEvent, emoji: done_emoji, timeout: session_timeout, message: msg) do |reaction_event|
     # Since this code will run on every :ocean: reaction, it might not
     # be on our time message we sent earlier. We use `next` to skip the rest
     # of the block unless it was our message that was reacted to.
@@ -74,10 +75,12 @@ bot.command(
       BobLog.error(e)
     end
 
-    ChannelIdsWithActiveBeaches.delete?(msg.channel.id)
+    BeachSand::SessionManager.release_lock(session_name)
 
     reaction_event.respond "The tides roll in, and the sand begins to smooth out."
   end
+
+  BeachSand::SessionManager.release_lock(session_name)
 
   nil
 end
