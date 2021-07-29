@@ -49,9 +49,8 @@ bot.command(
   usage: "React to the first message the bot posted with :ocean: to cause a deluge",
 ) do |event|
   session_name = event.channel.id
-  session_timeout = 60 * 30 # 30 minutes in seconds
 
-  unless BeachSand::SessionManager.acquire_lock(session_name, timeout: session_timeout)
+  unless BeachSand::SessionManager.acquire_lock(session_name, timeout: Application.beach_session_timeout)
     next "There is a current beach session in progress. This will be ignored until then."
   end
 
@@ -60,7 +59,7 @@ bot.command(
 
   msg.react(done_emoji)
 
-  bot.add_await!(Discordrb::Events::ReactionAddEvent, emoji: done_emoji, timeout: session_timeout, message: msg) do |reaction_event|
+  bot.add_await!(Discordrb::Events::ReactionAddEvent, emoji: done_emoji, timeout: Application.beach_session_timeout, message: msg) do |reaction_event|
     # Since this code will run on every :ocean: reaction, it might not
     # be on our time message we sent earlier. We use `next` to skip the rest
     # of the block unless it was our message that was reacted to.

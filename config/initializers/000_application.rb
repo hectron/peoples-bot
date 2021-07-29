@@ -25,12 +25,15 @@ Application.configure do |config|
   config.version = ENV["HEROKU_RELEASE_VERSION"].to_s
 
   # Bot configuration
-  config.bot_token = ENV["DISCORD_BOT_CLIENT_TOKEN"].freeze
-  config.bot_client_id = ENV["DISCORD_BOT_CLIENT_ID"].freeze
+  config.bot_token = ENV["DISCORD_BOT_CLIENT_TOKEN"]
+  config.bot_client_id = ENV["DISCORD_BOT_CLIENT_ID"]
   config.bot_prefix = "!".freeze
   config.bot_status = [].tap do |status|
     status << "type #{config.bot_prefix}help for help"
     status << config.version if config.version != ""
     status << "sha: #{config.sha}" if config.sha != ""
   end.join(" | ")
+
+  # Beach configuration
+  config.beach_session_timeout = ENV.fetch("BEACH_SESSION_TIMEOUT", 60 * 10).to_i
 end
