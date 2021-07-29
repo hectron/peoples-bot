@@ -16,7 +16,7 @@ module BeachSand
           raise BadTimeout, "Timeout must be at least #{MinTimeoutAllowed} seconds" if timeout < MinTimeoutAllowed
           raise BadTimeout, "Timeout must be at most #{MaxTimeoutAllowed} seconds" if timeout > MaxTimeoutAllowed
 
-          redis_client.set(lock_name, "locked for a total of #{timeout} seconds", ex: timeout) == InsertOk
+          redis_client.set(lock_name, "locked for a total of #{timeout} seconds", ex: timeout, nx: true)
         else
           !!session_store.add?(lock_name)
         end
@@ -32,6 +32,7 @@ module BeachSand
 
       def release_all!
         !!session_store.clear
+        redis_client.flushall if redis_enabled?
       end
 
       private
@@ -41,11 +42,11 @@ module BeachSand
       end
 
       def redis_enabled?
-        @redis_enabled ||= !ENV.fetch("REDIS_URL", "").empty?
+        !ENV.fetch("REDIS_URL", "").empty?
       end
 
       def redis_client
-        @redis_client ||= Redis.new(url: ENV["REDIS_URL"]) if redis_enabled?
+        Redis.new(url: ENV["REDIS_URL"]) if redis_enabled?
       end
     end
   end
