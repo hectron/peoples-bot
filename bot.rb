@@ -49,7 +49,7 @@ bot.command(
   usage: "React to the first message the bot posted with :ocean: to cause a deluge",
 ) do |event|
   session_name = event.channel.id
-  session_timeout = 60 * 10 # 10 minutes in seconds
+  session_timeout = 60 * 30 # 30 minutes in seconds
 
   unless BeachSand::SessionManager.acquire_lock(session_name, timeout: session_timeout)
     next "There is a current beach session in progress. This will be ignored until then."
