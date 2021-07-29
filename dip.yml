@@ -1,0 +1,17 @@
+version: '2'
+
+compose:
+  files:
+    - docker-compose.yml
+
+interaction:
+  bash:
+    service: app
+    command: '/bin/bash'
+  rspec:
+    service: app
+    command: bundle exec rspec
+
+provision:
+  - dip compose down --volumes
+  - dip compose up -d redis
