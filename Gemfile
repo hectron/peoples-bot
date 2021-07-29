@@ -4,6 +4,7 @@ source "https://rubygems.org"
 
 git_source(:github) {|repo_name| "https://github.com/#{repo_name}" }
 
-gem "rspec"
-gem "pry"
 gem "discordrb", "~> 3.4"
+gem "pry"
+gem "redlock"
+gem "rspec"
