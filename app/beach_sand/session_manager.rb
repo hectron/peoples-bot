@@ -44,7 +44,7 @@ module BeachSand
       end
 
       def redlock_client
-        @redlock_client ||= Redlock::Client.new([ ENV["REDIS_TLS_URL"] ]) if redlock_enabled?
+        @redlock_client ||= Redlock::Client.new([ ENV["REDIS_URL"] ]) if redlock_enabled?
       end
     end
   end
