@@ -1,0 +1,16 @@
+[{
+  "guid" : "779bfe52-0dd8-4023-a183-457eb100fccc",
+  "name" : "Moderna (age 18+)",
+  "key" : "moderna_covid_19_vaccine",
+  "categories" : [ "covid" ]
+}, {
+  "guid" : "a84fb9ed-deb4-461c-b785-e17c782ef88b",
+  "name" : "Pfizer-BioNTech (age 12+)",
+  "key" : "pfizer_covid_19_vaccine",
+  "categories" : [ "covid" ]
+}, {
+  "guid" : "784db609-dc1f-45a5-bad6-8db02e79d44f",
+  "name" : "Johnson & Johnson/Janssen (age 18+)",
+  "key" : "j&j_janssen_covid_19_vaccine",
+  "categories" : [ "covid" ]
+}]
