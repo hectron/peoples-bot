@@ -2,7 +2,7 @@ module Services
   module Mapbox
     class Api
       Url = "https://api.mapbox.com/geocoding/v5/mapbox.places".freeze
-      AccessToken = ENV.fetch("MAPBOX_TOKEN").freeze
+      AccessToken = ENV["MAPBOX_TOKEN"]
 
       class << self
         def geocode_postal_code(postal_code)

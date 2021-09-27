@@ -1,6 +1,5 @@
 require "json"
 require "net/http"
-require "pry"
 
 require_relative "../services/mapbox/api"
 require_relative "./structs/provider"
