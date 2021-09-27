@@ -10,6 +10,7 @@ describe Vaccines::Structs::Provider do
         .to all(be_a(Vaccines::Structs::Provider))
         .and include(
           having_attributes(
+            guid: "5572f886-7105-4267-84e1-cfa8aa052608",
             name: "MICHIGAN AVENUE PRIMARY CARE / IMMEDIATE CARE",
             address1: "180 N Michigan Ave #1605",
             address2: "",
@@ -25,6 +26,7 @@ describe Vaccines::Structs::Provider do
             in_stock: true,
           ),
           having_attributes(
+            guid: "46bf1df3-6215-44b9-b1ed-b9863b6825a6",
             name: "CVS Pharmacy, Inc. #04781",
             address1: "205 N Michigan Ave",
             address2: "",
@@ -40,6 +42,7 @@ describe Vaccines::Structs::Provider do
             in_stock: true,
           ),
           having_attributes(
+            guid: "ed3f9095-3156-4f8c-86bc-46f0894497bc",
             name: "Walgreens Co. #9438",
             address1: "30 N Michigan Ave LBBY 1",
             address2: "",
@@ -55,6 +58,7 @@ describe Vaccines::Structs::Provider do
             in_stock: true,
           ),
           having_attributes(
+            guid: "aadf16d6-5525-46a6-9f8c-4ada508107bb",
             name: "Walgreens Co. #15196",
             address1: "Flair Tower, 151 N State St FL 1ST",
             address2: "",
@@ -70,6 +74,7 @@ describe Vaccines::Structs::Provider do
             in_stock: true,
           ),
           having_attributes(
+            guid: "6d374217-a6e7-47ce-8a99-0426f5bf6d85",
             name: "CVS Pharmacy, Inc. #17643",
             address1: "1 S State St",
             address2: "",

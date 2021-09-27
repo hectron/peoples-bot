@@ -6,8 +6,6 @@ require_relative "./structs/provider"
 
 module Vaccines
   class Api
-    Url = "https://api.us.castlighthealth.com/vaccine-finder/v1".freeze
-
     SupportedRadiuses = [1, 5, 10, 25, 50].freeze # miles
 
     class << self
@@ -26,7 +24,7 @@ module Vaccines
         }
 
         query_string = URI.encode_www_form(query_params)
-        uri = URI("#{Url}/provider-locations/search?#{query_string}")
+        uri = URI("#{api_url}/provider-locations/search?#{query_string}")
 
         response = get(uri)
 
@@ -40,7 +38,7 @@ module Vaccines
 
       def vaccine_types
         # Can these be cached for some period of time?
-        uri = URI("#{Url}/medications?category=covid")
+        uri = URI("#{api_url}/medications?category=covid")
         response = get(uri)
 
         if response.code == "200"
@@ -62,6 +60,10 @@ module Vaccines
 
           http.request(request)
         end
+      end
+
+      def api_url
+        @api_url ||= ENV["VACCINE_API_URL"]
       end
     end
   end

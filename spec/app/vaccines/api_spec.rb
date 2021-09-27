@@ -2,11 +2,12 @@ describe Vaccines::Api do
   let(:mock_http) { Net::HTTP.new(url.host) }
 
   before do
+    stub_env({ "VACCINE_API_URL" => "https://my.api.url.com" })
     allow(Net::HTTP).to receive(:start).and_yield(mock_http)
   end
 
   describe ".find" do
-    let(:url) { URI("#{described_class::Url}/provider-locations/search") }
+    let(:url) { URI("#{described_class.send(:api_url)}/provider-locations/search") }
 
     before do
       allow(Services::Mapbox::Api).to receive(:geocode_postal_code).and_return([40.0, -81.0])
@@ -54,7 +55,7 @@ describe Vaccines::Api do
   end
 
   describe ".vaccine_types" do
-    let(:url) { URI("#{described_class::Url}/medications?category=covid") }
+    let(:url) { URI("#{described_class.send(:api_url)}/medications?category=covid") }
     let(:fixture) do
       File.read(File.join(Application.root, "spec", "fixtures", "vaccines_api_medications_response.json"))
     end

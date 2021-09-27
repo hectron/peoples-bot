@@ -1,8 +1,12 @@
 describe Vaccines::Result do
+  before do
+    stub_env({ "PROVIDER_URL" => "https://provider.com/providers" })
+  end
+
   describe ".display" do
     context "when no providers are passed" do
       it "returns a warning string" do
-        expect(described_class.display([])).to eq("No providers were given.")
+        expect(described_class.display([])).to be_nil
       end
     end
 
@@ -12,6 +16,7 @@ describe Vaccines::Result do
           {
             "providers" => [
               {
+                "guid" => "my-guid",
                 "name" => "Foxtrot",
                 "address1" => "200 N. Wells St",
                 "city" => "Chicago",
@@ -28,7 +33,7 @@ describe Vaccines::Result do
         expect(described_class.display(providers)).to eq(<<~MSG.strip)
           There's 1 provider(s) where you can get an appointment to receive a vaccination:
 
-          - Foxtrot located at 200 N. Wells St Chicago, IL 60601 (_about 0.5 miles away_). Phone Number: (773) 555-1111
+          - [Foxtrot located at 200 N. Wells St Chicago, IL 60601 (_about 0.5 miles away_). Phone Number: (773) 555-1111](https://provider.com/providers/?id=my-guid)
         MSG
       end
     end
