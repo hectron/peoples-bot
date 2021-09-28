@@ -53,47 +53,4 @@ describe Vaccines::Api do
       end
     end
   end
-
-  describe ".vaccine_types" do
-    let(:url) { URI("#{described_class.send(:api_url)}/medications?category=covid") }
-    let(:fixture) do
-      File.read(File.join(Application.root, "spec", "fixtures", "vaccines_api_medications_response.json"))
-    end
-
-    context "a successful request" do
-      before do
-        allow(mock_http).to receive(:request).and_return(instance_double(Net::HTTPResponse, code: "200", body: fixture))
-      end
-
-      it "returns a list of vaccines" do
-        expect(described_class.vaccine_types).to contain_exactly(
-          an_object_having_attributes(
-            guid: "779bfe52-0dd8-4023-a183-457eb100fccc",
-            name: "Moderna (age 18+)",
-            key: "moderna_covid_19_vaccine",
-          ),
-          an_object_having_attributes(
-            guid: "a84fb9ed-deb4-461c-b785-e17c782ef88b",
-            name: "Pfizer-BioNTech (age 12+)",
-            key: "pfizer_covid_19_vaccine",
-          ),
-          an_object_having_attributes(
-            guid: "784db609-dc1f-45a5-bad6-8db02e79d44f",
-            name: "Johnson & Johnson/Janssen (age 18+)",
-            key: "j&j_janssen_covid_19_vaccine",
-          ),
-        )
-      end
-    end
-
-    context "an unsuccessful request" do
-      before do
-        allow(mock_http).to receive(:request).and_return(instance_double(Net::HTTPResponse, code: "400"))
-      end
-
-      it "returns an empty list" do
-        expect(described_class.vaccine_types).to be_empty
-      end
-    end
-  end
 end
