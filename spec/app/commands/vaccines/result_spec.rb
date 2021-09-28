@@ -31,9 +31,9 @@ describe Commands::Vaccines::Result do
         )
 
         expect(described_class.display(providers)).to eq(<<~MSG.strip)
-          There's 1 provider(s) where you can get an appointment to receive a vaccination:
+          There's 1 provider(s) with appointments available:
 
-          - [Foxtrot located at 200 N. Wells St Chicago, IL 60601 (_about 0.5 miles away_). Phone Number: (773) 555-1111](https://provider.com/providers/?id=my-guid)
+          - **Foxtrot** located at 200 N. Wells St Chicago, IL 60601 (_about 0.5 miles away_). Phone number: (773) 555-1111, website: https://provider.com/providers/?id=my-guid
         MSG
       end
     end

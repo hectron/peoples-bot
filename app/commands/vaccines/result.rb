@@ -8,9 +8,9 @@ module Commands
           return if providers.none?
 
           <<~MSG.strip
-            There's #{providers.size} provider(s) where you can get an appointment to receive a vaccination:
+            There's #{providers.size} provider(s) with appointments available:
 
-            #{providers.map { |p| "- [#{display_provider(p)}](#{build_url_for(p)})" }.join("\n")}
+            #{providers.map { |p| "- #{display_provider(p)}" }.join("\n")}
           MSG
         end
 
@@ -18,10 +18,10 @@ module Commands
 
         def display_provider(provider)
           io = StringIO.new
-          io << "#{provider.name} located at "
+          io << "**#{provider.name}** located at "
           io << "#{provider.address1} #{provider.city}, #{provider.state} #{provider.zipcode} "
           io << "(_about #{provider.distance} miles away_). "
-          io << "Phone Number: #{provider.phone}"
+          io << "Phone number: #{provider.phone}, website: #{build_url_for(provider)}"
           io.string
         end
 
