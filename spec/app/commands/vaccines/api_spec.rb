@@ -1,4 +1,4 @@
-describe Vaccines::Api do
+describe Commands::Vaccines::Api do
   let(:instance) { described_class.new("mock_guid") }
   let(:mock_http) { Net::HTTP.new(url.host) }
 
@@ -26,7 +26,7 @@ describe Vaccines::Api do
       end
 
       it "returns a list of providers" do
-        expect(instance.find_in(postal_code: "60601")).to all(be_a(Vaccines::Structs::Provider))
+        expect(instance.find_in(postal_code: "60601")).to all(be_a(Commands::Vaccines::Structs::Provider))
       end
     end
 

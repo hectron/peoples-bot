@@ -1,7 +1,7 @@
 require "spec_helper"
 require "discordrb"
 
-describe BeachSand::MessageDeleter do
+describe Commands::BeachSand::MessageDeleter do
   describe "#execute" do
     before do
       allow(Discordrb::API::Channel).to receive(:messages)
@@ -10,7 +10,7 @@ describe BeachSand::MessageDeleter do
 
     context "when a message id is not provided" do
       it "does not run" do
-        instance = BeachSand::MessageDeleter.new(message_id: nil, channel_id: 1, api_token: "test")
+        instance = described_class.new(message_id: nil, channel_id: 1, api_token: "test")
 
         expect { instance.execute }.to raise_error(ArgumentError, "Need a message id")
       end
@@ -27,19 +27,19 @@ describe BeachSand::MessageDeleter do
         allow(Discordrb::API::Channel).to receive(:messages).with(
           mock_token,
           mock_channel_id,
-          BeachSand::MessageDeleter::MaxNumberOfMessages,
+          described_class::MaxNumberOfMessages,
           nil,
           mock_message_id,
           nil
         ).and_return(mock_api_response)
 
-        instance = BeachSand::MessageDeleter.new(
+        instance = described_class.new(
           message_id: mock_message_id,
           channel_id: mock_channel_id,
           api_token: mock_token,
         )
 
-        expect { instance.execute }.to raise_error(BeachSand::MessageDeleter::NoMessagesError)
+        expect { instance.execute }.to raise_error(described_class::NoMessagesError)
       end
     end
 
@@ -62,13 +62,13 @@ describe BeachSand::MessageDeleter do
         allow(Discordrb::API::Channel).to receive(:messages).with(
           mock_token,
           mock_channel_id,
-          BeachSand::MessageDeleter::MaxNumberOfMessages,
+          described_class::MaxNumberOfMessages,
           nil,
           mock_message_id,
           nil
         ).and_return(mock_api_response)
 
-        instance = BeachSand::MessageDeleter.new(
+        instance = described_class.new(
           message_id: mock_message_id,
           channel_id: mock_channel_id,
           api_token: mock_token,
@@ -82,7 +82,7 @@ describe BeachSand::MessageDeleter do
           mock_token,
           mock_channel_id,
           [1],
-          BeachSand::MessageDeleter::DeleteReason,
+          described_class::DeleteReason,
         )
       end
 
@@ -106,7 +106,7 @@ describe BeachSand::MessageDeleter do
         allow(Discordrb::API::Channel).to receive(:messages).with(
           mock_token,
           mock_channel_id,
-          BeachSand::MessageDeleter::MaxNumberOfMessages,
+          described_class::MaxNumberOfMessages,
           nil,
           mock_message_id,
           nil
@@ -115,7 +115,7 @@ describe BeachSand::MessageDeleter do
         allow(Discordrb::API::Channel).to receive(:messages).with(
           mock_token,
           mock_channel_id,
-          BeachSand::MessageDeleter::MaxNumberOfMessages,
+          described_class::MaxNumberOfMessages,
           nil,
           100, # the next max id
           nil
@@ -124,13 +124,13 @@ describe BeachSand::MessageDeleter do
         allow(Discordrb::API::Channel).to receive(:messages).with(
           mock_token,
           mock_channel_id,
-          BeachSand::MessageDeleter::MaxNumberOfMessages,
+          described_class::MaxNumberOfMessages,
           nil,
           120, # the next max id
           nil
         ).and_return(mock_api_response3)
 
-        instance = BeachSand::MessageDeleter.new(
+        instance = described_class.new(
           message_id: mock_message_id,
           channel_id: mock_channel_id,
           api_token: mock_token,
@@ -144,14 +144,14 @@ describe BeachSand::MessageDeleter do
           mock_token,
           mock_channel_id,
           (1..100).map(&:to_i),
-          BeachSand::MessageDeleter::DeleteReason,
+          described_class::DeleteReason,
         )
 
         expect(Discordrb::API::Channel).to have_received(:bulk_delete_messages).with(
           mock_token,
           mock_channel_id,
           (101..120).map(&:to_i),
-          BeachSand::MessageDeleter::DeleteReason,
+          described_class::DeleteReason,
         )
       end
     end

@@ -1,4 +1,4 @@
-describe Vaccines::Result do
+describe Commands::Vaccines::Result do
   before do
     stub_env({ "PROVIDER_URL" => "https://provider.com/providers" })
   end
@@ -12,7 +12,7 @@ describe Vaccines::Result do
 
     context "when providers are passed in" do
       it "returns a message listing locations with appointments" do
-        providers = Vaccines::Structs::Provider.from_search_response(
+        providers = Commands::Vaccines::Structs::Provider.from_search_response(
           {
             "providers" => [
               {
