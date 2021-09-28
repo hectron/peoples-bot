@@ -1,4 +1,5 @@
 describe Vaccines::Api do
+  let(:instance) { described_class.new("mock_guid") }
   let(:mock_http) { Net::HTTP.new(url.host) }
 
   before do
@@ -6,7 +7,7 @@ describe Vaccines::Api do
     allow(Net::HTTP).to receive(:start).and_yield(mock_http)
   end
 
-  describe ".find" do
+  describe "#find_in" do
     let(:url) { URI("#{described_class.send(:api_url)}/provider-locations/search") }
 
     before do
@@ -25,8 +26,7 @@ describe Vaccines::Api do
       end
 
       it "returns a list of providers" do
-        expect(described_class.find(vaccine_guid: "mock_guid", postal_code: "60601"))
-          .to all(be_a(Vaccines::Structs::Provider))
+        expect(instance.find_in(postal_code: "60601")).to all(be_a(Vaccines::Structs::Provider))
       end
     end
 
@@ -36,14 +36,14 @@ describe Vaccines::Api do
       end
 
       it "returns an empty list" do
-        expect(described_class.find(vaccine_guid: "mock_guid", postal_code: "60601")).to be_empty
+        expect(instance.find_in(postal_code: "60601")).to be_empty
       end
     end
 
     context "using an invalid radius" do
       it "raises an exception" do
         expect do
-          described_class.find(vaccine_guid: "mock_orange", postal_code: "60601", radius: 3)
+          instance.find_in(postal_code: "60601", radius: 3)
         end.to raise_error(
           a_string_including(
             "Invalid radius `3`.",
