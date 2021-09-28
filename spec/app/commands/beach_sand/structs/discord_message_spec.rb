@@ -1,6 +1,6 @@
 require "spec_helper"
 
-describe BeachSand::Structs::DiscordMessage do
+describe Commands::BeachSand::Structs::DiscordMessage do
   describe ".from_api_response" do
     let(:response) {
       [
@@ -18,8 +18,8 @@ describe BeachSand::Structs::DiscordMessage do
     }
 
     it "returns an array of messages" do
-      results = BeachSand::Structs::DiscordMessage.from_api_response(response)
-      expect(results).to all(be_a(BeachSand::Structs::DiscordMessage))
+      results = described_class.from_api_response(response)
+      expect(results).to all(be_a(described_class))
 
       expect(results.size).to eq(2)
 
@@ -31,7 +31,7 @@ describe BeachSand::Structs::DiscordMessage do
   describe "#deletable?" do
     context "when the message is older than a few weeks ago" do
       it "is false" do
-        instance = BeachSand::Structs::DiscordMessage.new(id: 1, author_id: 1, timestamp: Time.at(Time.now - (BeachSand::Structs::TwoWeeksAgo + 10)))
+        instance = described_class.new(id: 1, author_id: 1, timestamp: Time.at(Time.now - (Commands::BeachSand::Structs::TwoWeeksAgo + 10)))
 
         expect(instance.deletable?).to be_falsey
       end
@@ -39,7 +39,7 @@ describe BeachSand::Structs::DiscordMessage do
 
     context "when the message is within the last two weeks" do
       it "is true" do
-        instance = BeachSand::Structs::DiscordMessage.new(id: 1, author_id: 1, timestamp: Time.now)
+        instance = described_class.new(id: 1, author_id: 1, timestamp: Time.now)
 
         expect(instance.deletable?).to be_truthy
       end

@@ -1,4 +1,4 @@
-describe Vaccines::Structs::Provider do
+describe Commands::Vaccines::Structs::Provider do
   describe ".from_search_response" do
     let(:response) do
       json_response = File.read(File.join(Application.root, "spec", "fixtures", "vaccines_api_provider_locations.json"))
@@ -7,7 +7,7 @@ describe Vaccines::Structs::Provider do
 
     it "returns a list of providers" do
       expect(described_class.from_search_response(response))
-        .to all(be_a(Vaccines::Structs::Provider))
+        .to all(be_a(described_class))
         .and include(
           having_attributes(
             guid: "5572f886-7105-4267-84e1-cfa8aa052608",
