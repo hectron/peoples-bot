@@ -39,7 +39,7 @@ describe Commands::BeachSand::MessageDeleter do
           api_token: mock_token,
         )
 
-        expect { instance.execute }.to raise_error(BeachSand::MessageDeleter::NoMessagesError)
+        expect { instance.execute }.to raise_error(described_class::NoMessagesError)
       end
     end
 
