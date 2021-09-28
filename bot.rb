@@ -27,7 +27,7 @@ Vaccines::Types.each do |type|
   vaccine_guid = Vaccines::TypeToGuid[type]
 
   bot.command(type.to_sym, command_config) do |_event, postal_code|
-    locations = Vaccines::Api.find_in(vaccine_guid: vaccine_guid, postal_code: postal_code)
+    locations = Vaccines::Api.find(vaccine_guid: vaccine_guid, postal_code: postal_code)
 
     Vaccines::Result.display(locations)
   end
