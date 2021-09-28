@@ -12,7 +12,7 @@ bot.ready do |ready_event|
   bot.update_status("online", Application.bot_status, nil)
 end
 
-Vaccines::Types.each do |type|
+Commands::Vaccines::Types.each do |type|
   command_config = {
     help_available: true,
     description: "Find #{type} vaccines",
@@ -24,13 +24,13 @@ Vaccines::Types.each do |type|
     USAGE
   }
 
-  vaccine_guid = Vaccines::TypeToGuid[type]
+  vaccine_guid = Commands::Vaccines::TypeToGuid[type]
 
   bot.command(type.to_sym, command_config) do |_event, postal_code|
-    providers = Vaccines::Api.new(vaccine_guid).find_in(postal_code: postal_code)
+    providers = Commands::Vaccines::Api.new(vaccine_guid).find_in(postal_code: postal_code)
 
     if providers.any?
-      Vaccines::Result.display(providers.sort_by(&:distance).first(7))
+      Commands::Vaccines::Result.display(providers.sort_by(&:distance).first(7))
     else
       "Did not find any appointments for #{postal_code}"
     end
@@ -45,7 +45,7 @@ bot.command(
 ) do |event|
   session_name = event.channel.id
 
-  unless BeachSand::SessionManager.acquire_lock(session_name, timeout: Application.beach_session_timeout)
+  unless Commands::BeachSand::SessionManager.acquire_lock(session_name, timeout: Application.beach_session_timeout)
     next "There is a current beach session in progress. This will be ignored until then."
   end
 
@@ -60,21 +60,21 @@ bot.command(
     # of the block unless it was our message that was reacted to.
     next true unless reaction_event.message.id == msg.id
 
-    deleter = BeachSand::MessageDeleter.new(message_id: msg.id, channel_id: msg.channel.id, api_token: bot.token)
+    deleter = Commands::BeachSand::MessageDeleter.new(message_id: msg.id, channel_id: msg.channel.id, api_token: bot.token)
 
     begin
       msg.delete
       deleter.execute
-    rescue BeachSand::MessageDeleter::NoMessagesError, ArgumentError => e
+    rescue Commands::BeachSand::MessageDeleter::NoMessagesError, ArgumentError => e
       BobLog.error(e)
     end
 
-    BeachSand::SessionManager.release_lock(session_name)
+    Commands::BeachSand::SessionManager.release_lock(session_name)
 
     reaction_event.respond "The tides roll in, and the sand begins to smooth out."
   end
 
-  BeachSand::SessionManager.release_lock(session_name)
+  Commands::BeachSand::SessionManager.release_lock(session_name)
 
   nil
 end
