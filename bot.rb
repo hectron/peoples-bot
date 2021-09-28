@@ -27,10 +27,10 @@ Vaccines::Types.each do |type|
   vaccine_guid = Vaccines::TypeToGuid[type]
 
   bot.command(type.to_sym, command_config) do |_event, postal_code|
-    locations = Vaccines::Api.find(vaccine_guid: vaccine_guid, postal_code: postal_code)
+    providers = Vaccines::Api.new(vaccine_guid).find_in(postal_code: postal_code)
 
-    if locations.any?
-      Vaccines::Result.display(locations.sort_by(&:distance).first(7))
+    if providers.any?
+      Vaccines::Result.display(providers.sort_by(&:distance).first(7))
     else
       "Did not find any appointments for #{postal_code}"
     end

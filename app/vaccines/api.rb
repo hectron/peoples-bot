@@ -6,65 +6,57 @@ require_relative "./structs/provider"
 
 module Vaccines
   class Api
+    attr_reader :vaccine_guid
+
     SupportedRadiuses = [1, 5, 10, 25, 50].freeze # miles
 
-    class << self
-      def find(vaccine_guid:, postal_code:, radius: 5)
-        unless SupportedRadiuses.include?(radius)
-          raise "Invalid radius `#{radius}`. Supported radiuses: #{SupportedRadiuses}"
-        end
+    def initialize(vaccine_guid)
+      @vaccine_guid = vaccine_guid
+    end
 
-        coordinates = Services::Mapbox::Api.geocode_postal_code(postal_code)
-        query_params = {
-          medicationGuids: vaccine_guid,
-          long: coordinates[0],
-          lat: coordinates[1],
-          appointments: true,
-          radius: radius
-        }
+    def find_in(postal_code:, radius: 5)
+      unless SupportedRadiuses.include?(radius)
+      raise "Invalid radius `#{radius}`. Supported radiuses: #{SupportedRadiuses}"
+      end
 
-        query_string = URI.encode_www_form(query_params)
-        uri = URI("#{api_url}/provider-locations/search?#{query_string}")
+      coordinates = Services::Mapbox::Api.geocode_postal_code(postal_code)
+      query_params = {
+        medicationGuids: vaccine_guid,
+        long: coordinates[0],
+        lat: coordinates[1],
+        appointments: true,
+        radius: radius
+      }
 
-        response = get(uri)
+      query_string = URI.encode_www_form(query_params)
+      uri = URI("#{api_url}/provider-locations/search?#{query_string}")
 
-        if response.code == "200"
-          json_response = JSON.parse(response.body)
-          Vaccines::Structs::Provider.from_search_response(json_response)
+      response = get(uri)
+
+      if response.code == "200"
+        json_response = JSON.parse(response.body)
+        Vaccines::Structs::Provider.from_search_response(json_response)
         else
-          {}
-        end
+        {}
       end
+    end
 
-      private
+    private
 
-      def vaccine_types
-        # Can these be cached for some period of time?
-        uri = URI("#{api_url}/medications?category=covid")
-        response = get(uri)
+    def get(uri)
+      Net::HTTP.start(uri.host, uri.port, use_ssl: true) do |http|
+        request = Net::HTTP::Get.new(uri)
 
-        if response.code == "200"
-          JSON.parse(response.body, { object_class: OpenStruct })
-        else
-          []
-        end
+        request["Accept-Language"] = "en-US,en;q=0.9"
+        request["Accept"] = "application/json, text/plain, */*"
+        request["User-Agent"] = "Mozilla/5.0"
+
+        http.request(request)
       end
+    end
 
-      def get(uri)
-        Net::HTTP.start(uri.host, uri.port, use_ssl: true) do |http|
-          request = Net::HTTP::Get.new(uri)
-
-          request["Accept-Language"] = "en-US,en;q=0.9"
-          request["Accept"] = "application/json, text/plain, */*"
-          request["User-Agent"] = "Mozilla/5.0"
-
-          http.request(request)
-        end
-      end
-
-      def api_url
-        @api_url ||= ENV["VACCINE_API_URL"]
-      end
+    def api_url
+      @api_url ||= ENV["VACCINE_API_URL"]
     end
   end
 end
