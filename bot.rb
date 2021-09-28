@@ -12,33 +12,24 @@ bot.ready do |ready_event|
   bot.update_status("online", Application.bot_status, nil)
 end
 
-VaccineSpotter::VaccineTypes.each do |type|
+Vaccines::Types.each do |type|
   command_config = {
     help_available: true,
     description: "Find #{type} vaccines",
     usage: <<~USAGE.strip
-      #{Application.bot_prefix}#{type} <STATE> [<CITY> (optional)] <zipcode1> <zipcode2> ... <zipcodeN>
+      #{Application.bot_prefix}#{type} <zipcode>
 
-      Examples:
-        #{Application.bot_prefix}#{type} IL
-        #{Application.bot_prefix}#{type} IL Chicago
-        #{Application.bot_prefix}#{type} IL 60601 60613 60657
-        #{Application.bot_prefix}#{type} IL Chicago 60613 60660
+    Examples:
+      #{Application.bot_prefix}#{type} 60601
     USAGE
   }
 
-  bot.command(type.to_sym, command_config) do |_event, state, *args|
-    location_message = VaccineSpotter::LocationMessageParser.new(args)
+  vaccine_guid = Vaccines::TypeToGuid[type]
 
-    locations = VaccineSpotter::Api.find_in(
-      state: state,
-      vaccine_type: type,
-      city: location_message.city,
-      zipcodes: location_message.zipcodes,
-    )
+  bot.command(type.to_sym, command_config) do |_event, postal_code|
+    locations = Vaccines::Api.find_in(vaccine_guid: vaccine_guid, postal_code: postal_code)
 
-    # hacky, but we need a way to ensure that the ERB isn't over-rendering
-    VaccineSpotter::Result.display(locations.first(10))
+    Vaccines::Result.display(locations)
   end
 end
 
