@@ -8,7 +8,7 @@ describe Vaccines::Api do
   end
 
   describe "#find_in" do
-    let(:url) { URI("#{described_class.send(:api_url)}/provider-locations/search") }
+    let(:url) { URI("#{instance.send(:api_url)}/provider-locations/search") }
 
     before do
       allow(Services::Mapbox::Api).to receive(:geocode_postal_code).and_return([40.0, -81.0])
