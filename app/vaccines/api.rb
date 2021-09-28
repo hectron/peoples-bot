@@ -36,6 +36,8 @@ module Vaccines
         end
       end
 
+      private
+
       def vaccine_types
         # Can these be cached for some period of time?
         uri = URI("#{api_url}/medications?category=covid")
@@ -47,8 +49,6 @@ module Vaccines
           []
         end
       end
-
-      private
 
       def get(uri)
         Net::HTTP.start(uri.host, uri.port, use_ssl: true) do |http|
